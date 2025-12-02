@@ -106,7 +106,12 @@
 					$last_user_id_number .= substr($each_user_id_number["id_number"],2).",";
 				}
 			}
-			$teacher_no = date("y").(sprintf("%04d",(max(array_filter(explode(",",trim($last_user_id_number)))))+1));
+			$last_user_id_numbers = array_filter(explode(",", trim($last_user_id_number)));
+			if (!empty($last_user_id_numbers)) {
+				$teacher_no = date("y") . (sprintf("%04d", (max($last_user_id_numbers)) + 1));
+			} else {
+				$teacher_no = date("y") . (sprintf("%04d", 1));
+			}
 		}else{
 			$teacher_no = date("y").(sprintf("%04d",1));
 		}
