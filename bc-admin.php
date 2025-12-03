@@ -130,10 +130,14 @@
 		}
 		$user_bus_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bus_id_statement_auth_raw_2)) .")";
 		
-		foreach($user_class_id_name_auth as $class_id){
-			$user_notice_statement_auth_raw .= "numeric_class_name='".$class_id."' ";
+		if (!empty($user_class_id_name_auth)) {
+			foreach ($user_class_id_name_auth as $class_id) {
+				$user_notice_statement_auth_raw .= "numeric_class_name='" . $class_id . "' ";
+			}
+			$user_notice_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_notice_statement_auth_raw)) . " OR numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
+		} else {
+			$user_notice_statement_auth = "&& (notice_for='teacher' OR notice_for='all')";
 		}
-		$user_notice_statement_auth = "&& (".str_replace(" "," OR ",trim($user_notice_statement_auth_raw))." OR numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
 		
 		
 		$user_session_statement_auth_exp = array_filter(explode(" ",trim($user_session_statement_auth_raw)));
