@@ -112,11 +112,15 @@
 		}
 		$user_class_statement_auth = "&& (".str_replace(" "," OR ",trim($user_class_statement_auth_raw)) .")";
 		
-		$user_admission_id_statement_auth_exp = array_filter(explode(" ",trim($user_admission_id_statement_auth_raw)));
-		foreach($user_admission_id_statement_auth_exp as $admission_id){
-			$user_admission_id_statement_auth_raw_2 .= "admission_number='".$admission_id."' ";
+		$user_admission_id_statement_auth_exp = array_filter(explode(" ", trim($user_admission_id_statement_auth_raw)));
+		if (!empty($user_admission_id_statement_auth_exp)) {
+			foreach ($user_admission_id_statement_auth_exp as $admission_id) {
+				$user_admission_id_statement_auth_raw_2 .= "admission_number='" . $admission_id . "' ";
+			}
+			$user_admission_id_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_admission_id_statement_auth_raw_2)) . ")";
+		} else {
+			$user_admission_id_statement_auth = "&& 1=0"; // No students assigned, so make the query return no results
 		}
-		$user_admission_id_statement_auth = "&& (".str_replace(" "," OR ",trim($user_admission_id_statement_auth_raw_2)) .")";
 		
 		$user_bed_id_statement_auth_exp = array_filter(explode(" ",trim($user_bed_id_statement_auth_raw)));
 		foreach($user_bed_id_statement_auth_exp as $bed_id){
@@ -130,10 +134,14 @@
 		}
 		$user_bus_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bus_id_statement_auth_raw_2)) .")";
 		
-		foreach($user_class_id_name_auth as $class_id){
-			$user_notice_statement_auth_raw .= "numeric_class_name='".$class_id."' ";
+		if (!empty($user_class_id_name_auth)) {
+			foreach ($user_class_id_name_auth as $class_id) {
+				$user_notice_statement_auth_raw .= "numeric_class_name='" . $class_id . "' ";
+			}
+			$user_notice_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_notice_statement_auth_raw)) . " OR numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
+		} else {
+			$user_notice_statement_auth = "&& (notice_for='teacher' OR notice_for='all')";
 		}
-		$user_notice_statement_auth = "&& (".str_replace(" "," OR ",trim($user_notice_statement_auth_raw))." OR numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
 		
 		
 		$user_session_statement_auth_exp = array_filter(explode(" ",trim($user_session_statement_auth_raw)));
