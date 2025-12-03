@@ -946,7 +946,10 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 												}
 											}
 
-											$average_mark_obtained = substr((($mark_obtained_count / $mark_obtainable_count) * 100), 0, 5);
+											$average_mark_obtained = 0;
+											if ($mark_obtainable_count > 0) {
+												$average_mark_obtained = substr((($mark_obtained_count / $mark_obtainable_count) * 100), 0, 5);
+											}
 											return $average_mark_obtained;
 										}
 
