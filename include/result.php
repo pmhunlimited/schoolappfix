@@ -54,16 +54,18 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 	</div>
 
 	<?php
-	function studentName($student_info, $school_id)
-	{
-		global $connection_server;
-		$student_name = "N/A"; // Initialize
-		$get_student_name = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='$school_id' && admission_number='$student_info' LIMIT 1");
-		if (mysqli_num_rows($get_student_name) == 1) {
-			$student_name_array = mysqli_fetch_assoc($get_student_name);
-			$student_name = $student_name_array["lastname"] . " " . $student_name_array["firstname"] . " " . $student_name_array["othername"];
+	if (!function_exists('studentName')) {
+		function studentName($student_info, $school_id)
+		{
+			global $connection_server;
+			$student_name = "N/A"; // Initialize
+			$get_student_name = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='$school_id' && admission_number='$student_info' LIMIT 1");
+			if (mysqli_num_rows($get_student_name) == 1) {
+				$student_name_array = mysqli_fetch_assoc($get_student_name);
+				$student_name = $student_name_array["lastname"] . " " . $student_name_array["firstname"] . " " . $student_name_array["othername"];
+			}
+			return $student_name;
 		}
-		return $student_name;
 	}
 
 	function getScoreGrade($score_info, $type_info, $school_id)
@@ -946,7 +948,10 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 												}
 											}
 
-											$average_mark_obtained = substr((($mark_obtained_count / $mark_obtainable_count) * 100), 0, 5);
+											$average_mark_obtained = 0;
+											if ($mark_obtainable_count > 0) {
+												$average_mark_obtained = substr((($mark_obtained_count / $mark_obtainable_count) * 100), 0, 5);
+											}
 											return $average_mark_obtained;
 										}
 
