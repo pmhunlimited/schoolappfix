@@ -54,40 +54,44 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 	</div>
 
 	<?php
-	function studentName($student_info, $school_id)
-	{
-		global $connection_server;
-		$student_name = "N/A"; // Initialize
-		$get_student_name = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='$school_id' && admission_number='$student_info' LIMIT 1");
-		if (mysqli_num_rows($get_student_name) == 1) {
-			$student_name_array = mysqli_fetch_assoc($get_student_name);
-			$student_name = $student_name_array["lastname"] . " " . $student_name_array["firstname"] . " " . $student_name_array["othername"];
+	if (!function_exists('studentName')) {
+		function studentName($student_info, $school_id)
+		{
+			global $connection_server;
+			$student_name = "N/A"; // Initialize
+			$get_student_name = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='$school_id' && admission_number='$student_info' LIMIT 1");
+			if (mysqli_num_rows($get_student_name) == 1) {
+				$student_name_array = mysqli_fetch_assoc($get_student_name);
+				$student_name = $student_name_array["lastname"] . " " . $student_name_array["firstname"] . " " . $student_name_array["othername"];
+			}
+			return $student_name;
 		}
-		return $student_name;
 	}
 
-	function getScoreGrade($score_info, $type_info, $school_id)
-	{
-		global $connection_server;
+	if (!function_exists('getScoreGrade')) {
+		function getScoreGrade($score_info, $type_info, $school_id)
+		{
+			global $connection_server;
 
-		$grade_name = "N/A"; // Initialize to a default value
-		$get_grade_name = mysqli_query($connection_server, "SELECT * FROM sm_grades WHERE school_id_number='$school_id'");
-		if (mysqli_num_rows($get_grade_name) > 0) {
-			while ($grade_name_array = mysqli_fetch_array($get_grade_name)) {
-				if (in_array($score_info, range($grade_name_array["mark_from"], $grade_name_array["mark_upto"]))) {
-					if ($type_info == "grade") {
-						$grade_name = $grade_name_array["grade_name"];
-					}
+			$grade_name = "N/A"; // Initialize to a default value
+			$get_grade_name = mysqli_query($connection_server, "SELECT * FROM sm_grades WHERE school_id_number='$school_id'");
+			if (mysqli_num_rows($get_grade_name) > 0) {
+				while ($grade_name_array = mysqli_fetch_array($get_grade_name)) {
+					if (in_array($score_info, range($grade_name_array["mark_from"], $grade_name_array["mark_upto"]))) {
+						if ($type_info == "grade") {
+							$grade_name = $grade_name_array["grade_name"];
+						}
 
-					if ($type_info == "remark") {
-						$grade_name = $grade_name_array["grade_comment"];
+						if ($type_info == "remark") {
+							$grade_name = $grade_name_array["grade_comment"];
+						}
+						break; // Exit loop once grade is found
 					}
-					break; // Exit loop once grade is found
 				}
 			}
-		}
 
-		return $grade_name;
+			return $grade_name;
+		}
 	}
 	?>
 
