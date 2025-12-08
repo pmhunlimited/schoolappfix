@@ -153,7 +153,7 @@
 			}
 			$user_notice_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_notice_statement_auth_raw)) . " OR numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
 		} else {
-			$user_notice_statement_auth = "&& (notice_for='teacher' OR notice_for='all')";
+			$user_notice_statement_auth = "&& (numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
 		}
 		
 		
