@@ -175,6 +175,9 @@
 						$edit_class_detail = mysqli_fetch_array($edit_class_checkmate);
 						$edit_class_moderator_detail = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_moderators WHERE school_id_number='".trim(strip_tags($_GET['edit']))."' LIMIT 1"));
 					}
+				} else {
+					$get_max_numeric_class_name = mysqli_fetch_array(mysqli_query($connection_server, "SELECT MAX(numeric_class_name) FROM sm_classes WHERE school_id_number='".trim(strip_tags($_GET['id']))."'"));
+					$next_numeric_class_name = $get_max_numeric_class_name[0] + 1;
 				}
 			?>
 			<?php if(((isset($_GET['edit'])) && (trim(strip_tags($_GET['edit'])) !== "") && (mysqli_num_rows($edit_class_checkmate) == 1)) || ((!isset($_GET['edit'])) && (trim(strip_tags($_GET['edit'])) == "") && (isset($_GET['tab'])))){ ?>
@@ -195,7 +198,7 @@
                 </div>
 
                 <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
-				    <input name="num-class-name" id="num-class-name" value="<?php echo $edit_class_detail['numeric_class_name']; ?>" type="text" pattern="[0-9]{1,}" title="Code must contain numbers only" placeholder="" class="form-input" required/>
+				    <input name="num-class-name" id="num-class-name" value="<?php echo ($edit_class_detail['numeric_class_name'] ? $edit_class_detail['numeric_class_name'] : $next_numeric_class_name); ?>" type="text" pattern="[0-9]{1,}" title="Code must contain numbers only" placeholder="" class="form-input" readonly required/>
                     <span class="form-span mobile-font-size-12 system-font-size-14">Numeric Class Name*</span>
                 </div>
 

@@ -76,10 +76,12 @@
 	
 	if(isset($_POST["add-class"])){
 		$class_name = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["class-name"])));
-		$numeric_class_name = mysqli_real_escape_string($connection_server, trim(str_replace([".","-"],"",strip_tags($_POST["num-class-name"]))));
 		$student_capacity = mysqli_real_escape_string($connection_server, trim(str_replace([".","-"],"",strip_tags($_POST["stu-capacity"]))));
 		$session = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["session"])));
 		$school_id = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["school-id"])));
+
+		$get_max_numeric_class_name = mysqli_fetch_array(mysqli_query($connection_server, "SELECT MAX(numeric_class_name) FROM sm_classes WHERE school_id_number='$school_id'"));
+		$numeric_class_name = $get_max_numeric_class_name[0] + 1;
 		
 		if(!empty($class_name) && !empty($numeric_class_name) && !empty($student_capacity) && !empty($session) && !empty($school_id)){
 			if(mysqli_num_rows(mysqli_query($connection_server, "SELECT * FROM sm_classes WHERE (school_id_number='$school_id' && numeric_class_name='$numeric_class_name' && session='$session')")) == 0){
