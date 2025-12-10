@@ -110,7 +110,9 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 								class="form-select" required>
 								<option selected disabled hidden value="">Select Class</option>
 								<?php
-
+								$class_numeric_names = "";
+								$class_numeric_names_ids = "";
+								$class_numeric_names_sqli_statements = "";
 								$select_class_list_detail_using_id = mysqli_query($connection_server, "SELECT * FROM sm_class_list WHERE school_id_number='" . trim(strip_tags($_GET['id'])) . "' " . $user_admission_id_statement_auth . " GROUP BY numeric_class_name");
 
 								if (mysqli_num_rows($select_class_list_detail_using_id) > 0) {
@@ -771,7 +773,9 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 									class="form-select" required>
 									<option selected disabled hidden value="">Select Class</option>
 									<?php
-
+									$class_numeric_names = "";
+									$class_numeric_names_ids = "";
+									$class_numeric_names_sqli_statements = "";
 									$select_class_list_detail_using_id = mysqli_query($connection_server, "SELECT * FROM sm_class_list WHERE school_id_number='" . trim(strip_tags($_GET['id'])) . "' " . $user_admission_id_statement_auth . " GROUP BY numeric_class_name");
 
 									if (mysqli_num_rows($select_class_list_detail_using_id) > 0) {
@@ -1090,7 +1094,9 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 								class="form-select" required>
 								<option selected disabled hidden value="">Select Class</option>
 								<?php
-
+								$class_numeric_names = "";
+								$class_numeric_names_ids = "";
+								$class_numeric_names_sqli_statements = "";
 								$select_class_list_detail_using_id = mysqli_query($connection_server, "SELECT * FROM sm_class_list WHERE school_id_number='" . trim(strip_tags($_GET['id'])) . "' " . $user_admission_id_statement_auth . " GROUP BY numeric_class_name");
 
 								if (mysqli_num_rows($select_class_list_detail_using_id) > 0) {
