@@ -60,7 +60,7 @@
 	
 	$chopped_search_text_array = array_filter(explode(" ",trim($search_text)));
 	foreach($chopped_search_text_array as $search_items){
-		$search_sqli_statement .= "email LIKE '%".$search_items."%'"."\n"." id_number LIKE '%".$search_items."%'"."\n"." phone_number LIKE '%".$search_items."%'"."\n"." lastname LIKE '%".$search_items."%'"."\n"." firstname LIKE '%".$search_items."%'"."\n"." gender LIKE '%".$search_items."%'"."\n"." class LIKE '%".$search_items."%'"."\n"." subject LIKE '%".$search_items."%'"."\n"." dob LIKE '%".str_replace(["-","/"],"-",$search_items)."%'"."\n"." home_address LIKE '%".$search_items."%'"."\n"." city LIKE '%".$search_items."%'"."\n"." state LIKE '%".$search_items."%'"."\n"." country LIKE '%".$search_items."%'";
+		$search_sqli_statement .= "email LIKE '%".$search_items."%'"."\n"." id_number LIKE '%".$search_items."%'"."\n"." phone_number LIKE '%".$search_items."%'"."\n"." lastname LIKE '%".$search_items."%'"."\n"." firstname LIKE '%".$search_items."%'"."\n"." gender LIKE '%".$search_items."%'"."\n"." class LIKE '%".$search_items."%'"."\n"." dob LIKE '%".str_replace(["-","/"],"-",$search_items)."%'"."\n"." home_address LIKE '%".$search_items."%'"."\n"." city LIKE '%".$search_items."%'"."\n"." state LIKE '%".$search_items."%'"."\n"." country LIKE '%".$search_items."%'";
 	
 	}
 	
