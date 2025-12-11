@@ -73,7 +73,7 @@
 	
 	}
 	
-	$search_sqli_statements .= "(".str_replace("\n"," && school_id_number=".$get_logged_user_details['school_id_number'].") OR (", trim($search_sqli_statement))." && school_id_number=".$get_logged_user_details['school_id_number'].")";
+	$search_sqli_statements .= "((".str_replace("\n"," && school_id_number=".$get_logged_user_details['school_id_number'].") OR (", trim($search_sqli_statement))." && school_id_number=".$get_logged_user_details['school_id_number']."))";
 	
 	if((isset($_GET["search"])) && (trim(strip_tags($_GET["search"])) !== "")){
 		$select_student_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE $search_sqli_statements LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
