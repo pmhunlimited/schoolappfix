@@ -969,16 +969,21 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 													}
 													if ($checkmate_class_category) {
 
+														$average_percentage = averageMarkPercent($result_manage_marks_details["school_id_number"], $result_manage_marks_details["numeric_class_name"], $result_manage_marks_details["session"], $result_manage_marks_details["term_id_number"], $result_manage_marks_details["admission_number"]);
+														$preset_remark = getScoreGrade($average_percentage, 'remark', $result_manage_marks_details["school_id_number"]);
+														$current_remark = $result_manage_marks_details["principal_remark"];
+														$remark_to_display = !empty($current_remark) ? $current_remark : $preset_remark;
+
 														echo '<tr>
 													<td>
 														' . $result_manage_marks_details["admission_number"] . '
 														<input hidden name="admission-number[]" value="' . $result_manage_marks_details["admission_number"] . '" type="text" pattern="[0-9]{1,}" title="Mark must contain numbers only" placeholder="" class="form-input" readonly required/>
 													</td>
 													<td>' . studentName($result_manage_marks_details["admission_number"], $result_manage_marks_details["school_id_number"]) . '</td>
-													<td>' . averageMarkPercent($result_manage_marks_details["school_id_number"], $result_manage_marks_details["numeric_class_name"], $result_manage_marks_details["session"], $result_manage_marks_details["term_id_number"], $result_manage_marks_details["admission_number"]) . '%</td>
+													<td>' . $average_percentage . '%</td>
 													<td>
 														<div class="form-group mobile-width-90 system-width-40">
-															<input name="principal-remark[]" value="' . $result_manage_marks_details["principal_remark"] . '" placeholder="Principal Remark" class="form-input" />
+															<input name="principal-remark[]" value="' . $remark_to_display . '" placeholder="Principal Remark" class="form-input" />
 														</div>
 													</td>
 												</tr>';

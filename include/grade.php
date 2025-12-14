@@ -9,6 +9,9 @@
     <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
 		<center>
 		<div style="text-align: left;" class="scroll-box bg-2 mobile-width-96 system-width-96">
+			<p class="color-5 mobile-font-size-12 system-font-size-14 mobile-margin-left-3 system-margin-left-2">
+				Welcome to the Grades page. Here, you can set up preset remarks that will be automatically assigned to students based on their percentage scores. Use the 'Grade Comment' field to enter the remark for each grade range. For example, you can set "Excellent" for scores between 90 and 100. This will streamline the process of providing feedback on student performance.
+			</p>
 			<?php
 				if(($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "mod_adm") || ($user_identifier_auth_id == "adm_staff") && ($user_identifier_auth_id != "teacher") && ($user_identifier_auth_id != "stu_par") && ($user_identifier_auth_id != "stu")){
 			?>
@@ -174,6 +177,9 @@
 				}
 			?>
 			<?php if(((isset($_GET['edit'])) && (trim(strip_tags($_GET['edit'])) !== "") && (mysqli_num_rows($edit_grade_checkmate) == 1)) || ((!isset($_GET['edit'])) && (trim(strip_tags($_GET['edit'])) == "") && (isset($_GET['tab'])))){ ?>
+			<p class="color-5 mobile-font-size-12 system-font-size-14 mobile-margin-left-3 system-margin-left-2">
+				Use this form to set up preset remarks that will be automatically assigned to students based on their percentage scores. The 'Grade Comment' field is where you can enter the remark for each grade range. For example, for a grade of "A" with a range of 90-100, you could enter "Excellent" as the comment. This comment will then be automatically displayed on the student's report card.
+			</p>
             <form method="post" enctype="multipart/form-data">
 				<?php if(!empty(mysqli_real_escape_string($connection_server, strip_tags($_GET["err"])))){ ?>
         	    	<div style="display: inline-block;" class="container-box color-4 bg-10 text-bold-800 mobile-font-size-14 system-font-size-16 border-radius-5px mobile-width-80 system-width-92 mobile-padding-top-2 system-padding-top-1 mobile-padding-left-2 system-padding-left-2 mobile-padding-right-2 system-padding-right-2 mobile-padding-bottom-2 system-padding-bottom-1 mobile-margin-bottom-1 system-margin-bottom-1">
