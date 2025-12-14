@@ -256,13 +256,13 @@
 			$session = mysqli_real_escape_string($connection_server, $session_id[$index]);
 			$class = mysqli_real_escape_string($connection_server, $class_id[$index]);
 			$sch_id_number = mysqli_real_escape_string($connection_server, $school_id[$index]);
-			$delete_school_selected_subject = mysqli_query($connection_server, "DELETE FROM sm_subjects WHERE (school_id_number='$sch_id_number' && session='$session' && numeric_class_name='$class' && subject_code='$subject')");
-			mysqli_query($connection_server, "DELETE FROM sm_exams WHERE school_id_number='$sch_id_number' && session='$session' && numeric_class_name='$class' && subject_code='$subject'");
-			mysqli_query($connection_server, "DELETE FROM sm_subject_hall_receipts WHERE school_id_number='$sch_id_number' && session='$session' && numeric_class_name='$class' && subject_code='$subject'");
-			mysqli_query($connection_server, "DELETE FROM sm_results WHERE school_id_number='$sch_id_number' && session='$session' && numeric_class_name='$class' && subject_code='$subject'");
-			mysqli_query($connection_server, "DELETE FROM sm_route_lists WHERE school_id_number='$sch_id_number' && session='$session' && numeric_class_name='$class' && subject_code='$subject'");
-			mysqli_query($connection_server, "DELETE FROM sm_exam_lists WHERE school_id_number='$sch_id_number' && session='$session' && numeric_class_name='$class' && subject_code='$subject'");
-			mysqli_query($connection_server, "DELETE FROM sm_homework_lists WHERE school_id_number='$sch_id_number' && session='$session' && numeric_class_name='$class' && subject_code='$subject'");
+			$delete_school_selected_subject = mysqli_query($connection_server, "DELETE FROM sm_subjects WHERE (school_id_number='$sch_id_number' && numeric_class_name='$class' && subject_code='$subject')");
+			mysqli_query($connection_server, "DELETE FROM sm_exams WHERE school_id_number='$sch_id_number' && numeric_class_name='$class' && subject_code='$subject'");
+			mysqli_query($connection_server, "DELETE FROM sm_subject_hall_receipts WHERE school_id_number='$sch_id_number' && numeric_class_name='$class' && subject_code='$subject'");
+			mysqli_query($connection_server, "DELETE FROM sm_results WHERE school_id_number='$sch_id_number' && numeric_class_name='$class' && subject_code='$subject'");
+			mysqli_query($connection_server, "DELETE FROM sm_route_lists WHERE school_id_number='$sch_id_number' && numeric_class_name='$class' && subject_code='$subject'");
+			mysqli_query($connection_server, "DELETE FROM sm_exam_lists WHERE school_id_number='$sch_id_number' && numeric_class_name='$class' && subject_code='$subject'");
+			mysqli_query($connection_server, "DELETE FROM sm_homework_lists WHERE school_id_number='$sch_id_number' && numeric_class_name='$class' && subject_code='$subject'");
 			
 		}
 		$redirect_url = $_SERVER["REQUEST_URI"];
