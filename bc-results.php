@@ -183,7 +183,7 @@
 			$search_student_to_results_in_database = mysqli_query($connection_server, "SELECT * FROM sm_results WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && session='$session' && term_id_number='$term_id_number' && admission_number='$admission_number' ORDER BY subject_code ASC");
 			$search_student_to_result_remarks_in_database = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_result_remarks WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && session='$session' && term_id_number='$term_id_number' && admission_number='$admission_number' LIMIT 1"));
 			$get_result_release_dates = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_result_release_dates WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && term_id_number='$term_id_number' && session='$session'"));
-			
+			$get_term_details = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_terms WHERE school_id_number='$school_id' && id_number='$term_id_number'"));
 		}
 	}
 	
@@ -297,6 +297,26 @@ $today_date = new DateTime();
 								<!-- Gender -->
 								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo ucwords($get_student_details["gender"]); ?></span>
 							
+							</div>
+							<div style="display: inline-block; border-width: 0 0 1px 0; border-style: none none solid none; border-color: transparent transparent var(--color-4) transparent; text-align: center;" class="container-box bg-4 mobile-width-25 system-width-25 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
+								<!-- Next Term Begins -->
+								<span style="display: inline-block;" margin: 0; class="color-2 mobile-font-size-14 system-font-size-16 text-bold-600">Next Term Begins</span>
+
+							</div>
+							<div style="display: inline-block; border-width: 0 1px 1px 0; border-style: none solid solid none; border-color: transparent var(--color-4) var(--color-4) transparent; text-align: ;" class="container-box bg-3 mobile-width-72 system-width-73 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
+								<!-- Next Term Begins -->
+								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo $get_term_details["next_term_begins"]; ?></span>
+
+							</div>
+							<div style="display: inline-block; border-width: 0 0 1px 0; border-style: none none solid none; border-color: transparent transparent var(--color-4) transparent; text-align: center;" class="container-box bg-4 mobile-width-25 system-width-25 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
+								<!-- No of Days School Open -->
+								<span style="display: inline-block;" margin: 0; class="color-2 mobile-font-size-14 system-font-size-16 text-bold-600">No of Days School Open</span>
+
+							</div>
+							<div style="display: inline-block; border-width: 0 1px 1px 0; border-style: none solid solid none; border-color: transparent var(--color-4) var(--color-4) transparent; text-align: ;" class="container-box bg-3 mobile-width-72 system-width-73 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
+								<!-- No of Days School Open -->
+								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo $get_term_details["school_open_days"]; ?></span>
+
 							</div>
 							
 						</div>

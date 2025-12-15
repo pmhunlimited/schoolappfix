@@ -154,9 +154,75 @@ function closeLargePopUp(popUpClassName){
 	document.getElementsByClassName(popUpClassName)[0].remove();
 }
 
+function termPopUp(popUpTitle, popUpPlaceholder, popUpBtnText, popUpSelectTagId, popUpSqlTableName, popUpSqlStatement, popUpSqlUpdateColumn){
+	const getSelectTagInfo = document.getElementById(popUpSelectTagId);
+
+	closeBtnHTML = '<img onclick="closeLargePopUp(`largepopup-div`);" src="imgfile/Close.png" style="float: right; clear: right;" class="mobile-width-10 system-width-3 mobile-margin-left-1 system-margin-left-1 mobile-margin-right-1 system-margin-right-1" />';
+	titleHTML = '<span style="float: left; clear: left;" class="mobile-font-size-20 system-font-size-22 text-bold-300 mobile-margin-left-1 system-margin-left-1 mobile-margin-right-1 system-margin-right-1">'+popUpTitle+'</span>';
+
+	const createPopUp_1 = document.createElement("div");
+    createPopUp_1.className = "largepopup-div bg-2 box-shadow border-radius-5px";
+    createPopUp_1.innerHTML =
+    '<center>\
+    <div style="text-align: left;" class="mobile-width-100 system-width-100 mobile-margin-top-0 system-margin-top-0 mobile-margin-bottom-0 system-margin-bottom-0">\
+		<div style="text-align: left; display: block;" class="mobile-width-100 system-width-100 mobile-margin-top-0 system-margin-top-0 mobile-margin-bottom-2 system-margin-bottom-2">\
+			'+closeBtnHTML+'\
+			'+titleHTML+'\
+		</div><br>\
+		<center>\
+			<div style="text-align: left; display: block;" class="mobile-width-100 system-width-100 mobile-margin-top-5 system-margin-top-5 mobile-margin-bottom-0 system-margin-bottom-0">\
+				<div class="form-group mobile-width-90 system-width-65 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-0 system-margin-right-2">\
+					<input id="popup-item-input" type="text" placeholder="'+popUpPlaceholder+'" class="form-input" required/>\
+					<span class="form-span mobile-font-size-12 system-font-size-14"></span>\
+				</div>\
+				<div class="form-group mobile-width-90 system-width-65 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-0 system-margin-right-2">\
+					<input id="popup-item-input-2" type="date" placeholder="Next Term Begins" class="form-input" required/>\
+					<span class="form-span mobile-font-size-12 system-font-size-14">Next Term Begins</span>\
+				</div>\
+				<div class="form-group mobile-width-90 system-width-65 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-0 system-margin-right-2">\
+					<input id="popup-item-input-3" type="number" placeholder="No of Days School Open" class="form-input" required/>\
+					<span class="form-span mobile-font-size-12 system-font-size-14">No of Days School Open</span>\
+				</div>\
+				<button onclick="popUpAddItemBtn(`'+popUpSelectTagId+'`,`'+popUpSqlTableName+'`,`'+popUpSqlStatement+'`,`'+popUpSqlUpdateColumn+'`);" type="button" class="button-box color-2 bg-4 onhover-bg-color-7 mobile-font-size-14 system-font-size-16 mobile-width-94 system-width-26 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-0 system-margin-right-1">\
+					'+popUpBtnText+'\
+				</button><br>\
+				<div id="largepopup-items-div" class="mobile-width-100 system-width-100">\
+				</div>\
+			</div>\
+		</center>\
+    </div>\
+    </center>';
+
+	if(document.getElementsByClassName("largepopup-div").length === 0){
+	document.body.appendChild(createPopUp_1);
+    }else{
+	document.getElementsByClassName("largepopup-div")[0].remove();
+	document.body.appendChild(createPopUp_1);
+    }
+
+	const popUpItemDiv = document.getElementById("largepopup-items-div");
+	for(i=0; i < getSelectTagInfo.options.length; i++){
+		if(getSelectTagInfo.options[i].value.split(" ")[0].length != 0){
+		popUpItemDiv.innerHTML += '<div style="border:0.3px solid var(--color-5); padding: 3% 2%;" id="'+getSelectTagInfo.options[i].value.split(" ")[0]+'" class="large-pop-up-attr-'+getSelectTagInfo.options[i].value.split(" ")[0]+' largepopup-items mobile-width-90 system-width-91 mobile-margin-top-2 system-margin-top-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-0 system-margin-right-1 mobile-margin-bottom-2 system-margin-bottom-2">\
+										<span id="largepop-span-'+getSelectTagInfo.options[i].value.split(" ")[0]+'" class="mobile-font-size-16 system-font-size-18 text-bold-300 mobile-margin-left-1 system-margin-left-1 mobile-margin-right-1 system-margin-right-1">'+getSelectTagInfo.options[i].text+'</span>\
+										<input type="text" value="'+getSelectTagInfo.options[i].text+'" id="large-pop-up-editbox-'+getSelectTagInfo.options[i].value.split(" ")[0]+'" class="mobile-width-70 system-width-70" style="border:none; outline: none; background: transparent; display: none;"/>\
+										<div style="float: right; clear: right; margin: -2% 0 0 0;" class="mobile-width-25 system-width-15">\
+											<img onclick="deleteLargePopUpItem(`'+getSelectTagInfo.options[i].value.split(" ")[0]+'`,`'+popUpSelectTagId+'`,`'+popUpSqlTableName+'`,`'+popUpSqlStatement+'`,`'+popUpSqlUpdateColumn+'`);" src="imgfile/Delete.png" style="margin:0 -4% 0 0;" id="large-pop-up-delete-'+getSelectTagInfo.options[i].value.split(" ")[0]+'" class="mobile-width-50 system-width-50" />\
+											<img onclick="editLargePopUpItem(`'+getSelectTagInfo.options[i].value.split(" ")[0]+'`,`'+popUpSelectTagId+'`,`'+popUpSqlTableName+'`,`'+popUpSqlStatement+'`,`'+popUpSqlUpdateColumn+'`);" src="imgfile/Edit.png" style="margin:0 0 0 -4%;" id="large-pop-up-edit-'+getSelectTagInfo.options[i].value.split(" ")[0]+'" class="mobile-width-50 system-width-50" />\
+											<img onclick="cancelLargePopUpItem(`'+getSelectTagInfo.options[i].value.split(" ")[0]+'`,`'+popUpSelectTagId+'`,`'+popUpSqlTableName+'`,`'+popUpSqlStatement+'`,`'+popUpSqlUpdateColumn+'`);" src="imgfile/cancel.png" style="margin:0 -4% 0 0; display: none;" id="large-pop-up-cancel-'+getSelectTagInfo.options[i].value.split(" ")[0]+'" class="mobile-width-50 system-width-50" />\
+											<img onclick="saveLargePopUpItem(`'+getSelectTagInfo.options[i].value.split(" ")[0]+'`,`'+popUpSelectTagId+'`,`'+popUpSqlTableName+'`,`'+popUpSqlStatement+'`,`'+popUpSqlUpdateColumn+'`);" src="imgfile/save.png" style="margin:0 0 0 -4%; display: none;" id="large-pop-up-save-'+getSelectTagInfo.options[i].value.split(" ")[0]+'" class="mobile-width-50 system-width-50" />\
+										</div>\
+									</div>';
+		}
+	}
+
+}
+
 function popUpAddItemBtn(popUpSelectTagId, popUpSqlTableName, popUpSqlStatement, popUpSqlUpdateColumn){
 	const popUpItemDiv = document.getElementById("largepopup-items-div");
 	const popUpItemInput = document.getElementById("popup-item-input");
+	const popUpItemInput2 = document.getElementById("popup-item-input-2");
+	const popUpItemInput3 = document.getElementById("popup-item-input-3");
 	const popUpItemList = document.getElementsByClassName("largepopup-items");
 	const countPopUpItemList = popUpItemList.length;
 	const getSelectTagInfo = document.getElementById(popUpSelectTagId);
@@ -185,8 +251,8 @@ function popUpAddItemBtn(popUpSelectTagId, popUpSqlTableName, popUpSqlStatement,
 				all_sql_col += insertIns[i].trim().split("=")[0]+"\n";
 				all_sql_col_val += insertIns[i].trim().split("=")[1]+"\n";
 			}
-			var all_sql_col_together = all_sql_col.trim().replace("\n",", ")+", "+popUpSqlUpdateColumn;
-			var all_sql_col_value_together = all_sql_col_val.trim().replace("\n",", ")+", '"+popUpItemInput.value+"'";
+			var all_sql_col_together = all_sql_col.trim().replace("\n",", ")+", "+popUpSqlUpdateColumn+", next_term_begins, school_open_days";
+			var all_sql_col_value_together = all_sql_col_val.trim().replace("\n",", ")+", '"+popUpItemInput.value+"', '"+popUpItemInput2.value+"', '"+popUpItemInput3.value+"'";
 			var sql_statement = "SELECT * FROM "+popUpSqlTableName+" WHERE "+popUpSqlStatement.replace("null",1);
 			var HttpRequestSql = new XMLHttpRequest();
 			HttpRequestSql.open("POST","./sql_statement_exists.php");
@@ -226,8 +292,8 @@ function popUpAddItemBtn(popUpSelectTagId, popUpSqlTableName, popUpSqlStatement,
 				all_sql_col += insertIns[i].trim().split("=")[0]+"\n";
 				all_sql_col_val += insertIns[i].trim().split("=")[1]+"\n";
 			}
-			var all_sql_col_together = all_sql_col.trim().replace("\n",", ")+", "+popUpSqlUpdateColumn;
-			var all_sql_col_value_together = all_sql_col_val.trim().replace("\n",", ")+", '"+popUpItemInput.value+"'";
+			var all_sql_col_together = all_sql_col.trim().replace("\n",", ")+", "+popUpSqlUpdateColumn+", next_term_begins, school_open_days";
+			var all_sql_col_value_together = all_sql_col_val.trim().replace("\n",", ")+", '"+popUpItemInput.value+"', '"+popUpItemInput2.value+"', '"+popUpItemInput3.value+"'";
 			var sql_statement = "SELECT * FROM "+popUpSqlTableName+" WHERE "+popUpSqlStatement.replace("null",(popUpID+1));
 			var HttpRequestSql = new XMLHttpRequest();
 			HttpRequestSql.open("POST","./sql_statement_exists.php");
@@ -321,7 +387,7 @@ function saveLargePopUpItem(itemID,popUpSelectTagId, popUpSqlTableName, popUpSql
 		if(getSelectTagInfo.options[i].value.split(" ")[0] === itemID){
 			getSelectTagInfo.options[i].value = itemID+" "+largePopEditBox.value;
 			getSelectTagInfo.options[i].text = largePopEditBox.value;
-			popUpBackSql("UPDATE "+popUpSqlTableName+" SET " +popUpSqlUpdateColumn+"='"+largePopEditBox.value+"' WHERE "+popUpSqlStatement.replace("null",itemID));
+			popUpBackSql("UPDATE "+popUpSqlTableName+" SET " +popUpSqlUpdateColumn+"='"+largePopEditBox.value+"', next_term_begins='"+document.getElementById("popup-item-input-2").value+"', school_open_days='"+document.getElementById("popup-item-input-3").value+"' WHERE "+popUpSqlStatement.replace("null",itemID));
 		}
 	}
 	largePopSpan.innerHTML = largePopEditBox.value;

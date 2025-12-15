@@ -568,7 +568,7 @@
 				</div>
 				
 				<?php $sch_id_numb = $get_logged_user_details["school_id_number"]; ?>
-				<button onclick="largePopUp(`Add Term Category`,`Term Category Name*`,`ADD CATEGORY`,`select-exam-term-id`,`sm_terms`,`school_id_number='<?php echo $sch_id_numb; ?>' && id_number='null'`,`term_name`);" type="button" class="button-box color-2 bg-4 onhover-bg-color-7 mobile-font-size-14 system-font-size-16 mobile-width-93 system-width-6 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-4 system-margin-left-3 mobile-margin-right-1 system-margin-right-1">
+				<button onclick="termPopUp(`Add Term Category`,`Term Category Name*`,`ADD CATEGORY`,`select-exam-term-id`,`sm_terms`,`school_id_number='<?php echo $sch_id_numb; ?>' && id_number='null'`,`term_name`);" type="button" class="button-box color-2 bg-4 onhover-bg-color-7 mobile-font-size-14 system-font-size-16 mobile-width-93 system-width-6 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-4 system-margin-left-3 mobile-margin-right-1 system-margin-right-1">
 				    ADD
 				</button>
 				
