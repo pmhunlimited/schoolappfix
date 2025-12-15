@@ -276,6 +276,10 @@
 		include("include/func/route.php");
 	}
 
+	if(strip_tags($_GET["page"]) == "smgt_term"){
+		include("include/func/term.php");
+	}
+
 	if(strip_tags($_GET["page"]) == "smgt_student"){
 		include("include/func/admit-student.php");
 	}
@@ -518,6 +522,10 @@
 
 		if(strip_tags($_GET["page"]) == "smgt_time_table"){
 			include("include/route.php");
+		}
+
+		if(strip_tags($_GET["page"]) == "smgt_term"){
+			include("include/term.php");
 		}
 
 		if(strip_tags($_GET["page"]) == "smgt_student"){
