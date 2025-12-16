@@ -57,6 +57,30 @@ body{
 	.mobile-font-size-17 {
 		font-size: 15px !important;
 	}
+
+	#printDiv .system-width-70 {
+		width: 98% !important;
+	}
+
+	#printDiv .mobile-padding-top-2 {
+		padding-top: 1% !important;
+	}
+
+	#printDiv .mobile-padding-bottom-2 {
+		padding-bottom: 1% !important;
+	}
+
+	#printDiv .system-font-size-25 {
+		font-size: 20px !important;
+	}
+
+	#printDiv .system-font-size-18 {
+		font-size: 16px !important;
+	}
+
+	#printDiv .result-table-tag th, #printDiv .result-table-tag td {
+		padding: 1% !important;
+	}
 }
 
 .avatar_icon_height{
@@ -2322,7 +2346,6 @@ body{
 		top:0;
 		position:fixed;
 		z-index:3;
-		border-bottom-right-radius:;
 	
 	}
 	
@@ -2361,7 +2384,6 @@ body{
 	top:3.5rem;
 	position: fixed;
 	z-index:3;
-	border-bottom-right-radius:;
 	overflow-y: auto;
 	overflow-x: hidden;
 	white-space:nowrap;
@@ -2391,7 +2413,6 @@ body{
 	.menu-div a button{
 	width: 110%;
 	height: 3.3rem;
-	font-weight:;
 	font-family:arial;
 	padding: 3% 6% 3% 6%;
 	margin:0 0 0 -9px;
