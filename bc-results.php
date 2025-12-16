@@ -244,7 +244,7 @@ $today_date = new DateTime();
 							</div>
 							<div style="display: inline-block; border-width: 0 1px 1px 0; border-style: none solid solid none; border-color: transparent var(--color-4) var(--color-4) transparent; text-align: ;" class="container-box bg-3 mobile-width-72 system-width-73 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
 								<!-- Full-Name -->
-								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo strtoupper($get_student_details["lastname"]).", ".ucwords($get_student_details["firstname"]." ".$get_student_details["othername"]); ?></span>
+								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo strtoupper($get_student_details["lastname"]." ".$get_student_details["firstname"]." ".$get_student_details["othername"]); ?></span>
 							
 							</div><br>
 
