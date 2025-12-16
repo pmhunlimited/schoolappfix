@@ -215,15 +215,15 @@ $today_date = new DateTime();
 		<center>
 			<div style="border:1px solid var(--color-4); " class="container-box bg-2 mobile-width-96 system-width-70 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-2 system-padding-top-2 mobile-padding-bottom-2 system-padding-bottom-2">
 				<div style="border:1px solid var(--color-4v); text-align: left;" class="container-box bg-3 mobile-width-96 system-width-96 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
-					<div style="display: block; text-align: center;" class="container-box bg-3 mobile-width-100 system-width-100">
-							
-						<?php if(file_exists("dataimg/school_".$school_id.".png")){ ?>
-						<img style="display: inline-block;" class="mobile-width-50 system-width-20" src="dataimg/school_<?php echo $school_id; ?>.png" /><br>
-						<?php }else{ ?>
-						<img style="display: inline-block;" class="mobile-width-50 system-width-20" src="imgfile/logo.png" /><br>
-						<?php } ?>
-						
-						<div style="display: inline-block;" class="container-box bg-3 mobile-width-80 system-width-80">
+					<div style="display: flex; flex-direction: row; align-items: center;" class="container-box bg-3 mobile-width-100 system-width-100">
+						<div style="text-align: left;" class="container-box bg-3 mobile-width-30 system-width-30">
+							<?php if(file_exists("dataimg/school_".$school_id.".png")){ ?>
+							<img style="display: inline-block;" class="mobile-width-100 system-width-100" src="dataimg/school_<?php echo $school_id; ?>.png" />
+							<?php }else{ ?>
+							<img style="display: inline-block;" class="mobile-width-100 system-width-100" src="imgfile/logo.png" />
+							<?php } ?>
+						</div>
+						<div style="display: inline-block; text-align: center;" class="container-box bg-3 mobile-width-70 system-width-70">
 							<!-- Name -->
 							<span style="display: inline-block;" class="color-1 mobile-font-size-17 system-font-size-25"><?php echo $get_sch_name["school_name"]; ?></span><br>
 							<span style="display: inline-block;" class="color-1 mobile-font-size-17 system-font-size-25"><?php echo $get_sch_name["school_address"].", ".$get_sch_name["city"]." ".$get_sch_name["state"]; ?></span><br>
@@ -464,6 +464,15 @@ $today_date = new DateTime();
 						?>
 					</span>
 					
+					<!-- Teacher's Remark -->
+					<span style="display: inline-block;" class="color-1 mobile-font-size-12 system-font-size-14 mobile-margin-top-2 system-margin-top-2">
+						<strong>Teacher's Remark</strong>:
+						<?php
+							if(!empty(trim($search_student_to_result_remarks_in_database["teacher_remark"]))){
+								echo trim($search_student_to_result_remarks_in_database["teacher_remark"]);
+							}
+						?>
+					</span>
 				</div>
 			</div>
 			

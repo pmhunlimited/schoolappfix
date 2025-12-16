@@ -922,7 +922,8 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 											<th>Roll No</th>
 											<th>Name</th>
 											<th>Average Marks(%)</th>
-											<th>Remark</th>
+											<th>Principal Remark</th>
+											<th>Teacher's Remark</th>
 										</tr>
 										<?php
 										function averageMarkPercent($school_id, $class_info, $session_info, $term_info, $student_id)
@@ -984,6 +985,11 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 													<td>
 														<div class="form-group mobile-width-90 system-width-40">
 															<input name="principal-remark[]" value="' . $remark_to_display . '" placeholder="Principal Remark" class="form-input" />
+														</div>
+													</td>
+													<td>
+														<div class="form-group mobile-width-90 system-width-40">
+															<input name="teacher-remark[]" value="' . $result_manage_marks_details["teacher_remark"] . '" placeholder="Teacher\'s Remark" class="form-input" />
 														</div>
 													</td>
 												</tr>';
