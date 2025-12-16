@@ -13,6 +13,12 @@
 		$err_msg .= "Error: Another Term has been with same details already exists in database";
 	}
 
+	$check_column_query = "SHOW COLUMNS FROM sm_terms LIKE 'next_term_begins'";
+	$check_column_result = mysqli_query($connection_server, $check_column_query);
+	if(mysqli_num_rows($check_column_result) == 0){
+		$alter_table_query = "ALTER TABLE sm_terms ADD next_term_begins DATE NOT NULL AFTER term_name, ADD school_open_days INT NOT NULL AFTER next_term_begins";
+		mysqli_query($connection_server, $alter_table_query);
+	}
 
 	$header_add_button = "add_term";
 	$additional_add_tag = "&id=".$get_logged_user_details['school_id_number'];
