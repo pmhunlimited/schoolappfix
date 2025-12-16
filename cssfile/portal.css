@@ -22,6 +22,20 @@ body{
 		-webkit-print-color-adjust: exact;
 		print-color-adjust: exact;
 	}
+
+	.web-header, .web-header-second, .menu-div, .noprint {
+		display: none !important;
+	}
+
+	.system-right-menu {
+		width: 100% !important;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	.result-table-tag, .result-table-tag th, .result-table-tag td {
+		border: 1px solid black !important;
+	}
 }
 
 .avatar_icon_height{

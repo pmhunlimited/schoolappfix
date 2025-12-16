@@ -470,7 +470,7 @@ $today_date = new DateTime();
 		</center>
 	</div><br>
 	<center>
-		<span style="display: inline-block; text-decoration: underline; cursor: pointer;" class="color-4 mobile-font-size-14 system-font-size-16" onclick="printPage();">Print Result</span>
+		<span style="display: inline-block; text-decoration: underline; cursor: pointer;" class="color-4 mobile-font-size-14 system-font-size-16 noprint" onclick="printPage();">Print Result</span>
 						
 		<script>
 			
