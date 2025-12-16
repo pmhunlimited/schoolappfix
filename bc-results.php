@@ -218,9 +218,9 @@ $today_date = new DateTime();
 					<div style="display: block; text-align: center;" class="container-box bg-3 mobile-width-100 system-width-100">
 							
 						<?php if(file_exists("dataimg/school_".$school_id.".png")){ ?>
-						<img style="display: inline-block;" class="mobile-width-50 system-width-40" src="dataimg/school_<?php echo $school_id; ?>.png" /><br>
+						<img style="display: inline-block;" class="mobile-width-50 system-width-20" src="dataimg/school_<?php echo $school_id; ?>.png" /><br>
 						<?php }else{ ?>
-						<img style="display: inline-block;" class="mobile-width-50 system-width-40" src="imgfile/logo.png" /><br>
+						<img style="display: inline-block;" class="mobile-width-50 system-width-20" src="imgfile/logo.png" /><br>
 						<?php } ?>
 						
 						<div style="display: inline-block;" class="container-box bg-3 mobile-width-80 system-width-80">
