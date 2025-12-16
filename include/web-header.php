@@ -331,7 +331,7 @@ $tab = $_GET['tab'] ?? '';
 
 	<?php if(isset($_SESSION["mod_adm_session"])){ ?>
 	<a onclick="osList('sub-sms');">
-		<button onmouseover="grayImg(this,'sms-img','Message_Chat.png'); grayDropImg('sms-drop-img','drop-forward.png');" onmouseout="whiteImg(this,'sms-img','Message_Chat.png'); whiteDropImg('sms-drop-img','drop-forward.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
+		<button onmouseover="grayImg(this,'sms-img','Message_Chat.png'); grayDropImg('sms-drop-img','drop-forward.png');" onmouseout="whiteImg(this,'sms-img','Message_Chat_white.png'); whiteDropImg('sms-drop-img','drop-forward.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
 			<img id="sms-img" src="imgfile/white/Message_Chat.png"/>
 			SMS
 			<img id="sms-drop-img" src="imgfile/white/drop-forward.png" style="float: right;"/>
