@@ -1,5 +1,5 @@
 <?php
-if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "mod_adm") || ($user_identifier_auth_id == "adm_staff") && ($user_identifier_auth_id != "teacher") && ($user_identifier_auth_id != "stu_par") && ($user_identifier_auth_id != "stu")) {
+if (in_array($user_identifier_auth_id, ["mod_adm", "adm_staff"])) {
 ?>
 <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
     <center>
