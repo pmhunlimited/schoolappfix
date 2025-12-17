@@ -687,6 +687,10 @@
 		if(strip_tags($_GET["page"]) == "smgt_cleanup"){
 			include("include/cleanup.php");
 		}
+
+		if(strip_tags($_GET["page"]) == "smgt_bulk_print"){
+			include("include/bulk-print.php");
+		}
 		
 	?>
 
