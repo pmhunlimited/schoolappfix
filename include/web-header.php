@@ -199,6 +199,9 @@ $tab = $_GET['tab'] ?? '';
 		<a href="/bc-admin.php?page=smgt_result&tab=manage_marks&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
 			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Manage Marks</button>
 		</a><br>
+		<a href="/bc-admin.php?page=smgt_bulk_print&tab=true&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Bulk Print Results</button>
+		</a><br>
 		<?php
 			}
 		?>
@@ -224,10 +227,6 @@ $tab = $_GET['tab'] ?? '';
 			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">View Result</button>
 		</a><br>
 		<?php } ?>
-
-		<a href="/bc-admin.php?page=smgt_bulk_print&tab=true&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
-			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Bulk Print Results</button>
-		</a>
 	</div>
 	
 	<?php if(!isset($_SESSION["sup_adm_session"])){ ?>
