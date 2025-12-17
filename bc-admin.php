@@ -408,6 +408,18 @@
 		include("include/func/cleanup.php");
 	}
 
+	if(strip_tags($_GET["page"]) == "smgt_feature_pricing"){
+		include("include/func/feature-pricing.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_feature_activations"){
+		include("include/func/feature-activations.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_request_activation"){
+		include("include/func/request-activation.php");
+	}
+
 	if(strip_tags($_GET["page"]) == "smgt_sms_send"){
 		include("include/func/sms-send.php");
 	}
@@ -690,6 +702,18 @@
 
 		if(strip_tags($_GET["page"]) == "smgt_bulk_print"){
 			include("include/bulk-print.php");
+		}
+
+		if(strip_tags($_GET["page"]) == "smgt_feature_pricing"){
+			include("include/feature-pricing.php");
+		}
+
+		if(strip_tags($_GET["page"]) == "smgt_feature_activations"){
+			include("include/feature-activations.php");
+		}
+
+		if(strip_tags($_GET["page"]) == "smgt_request_activation"){
+			include("include/request-activation.php");
 		}
 		
 	?>

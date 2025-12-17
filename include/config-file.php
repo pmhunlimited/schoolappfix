@@ -226,6 +226,11 @@
 	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN account_number VARCHAR(225)"); }
 	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'account_name'");
 	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN account_name VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'paystack_public_key'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN paystack_public_key VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'paystack_secret_key'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN paystack_secret_key VARCHAR(225)"); }
+
 
 	//Create SMS History Table
 	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_history (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id))");
@@ -278,6 +283,9 @@
 	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_sender_ids ADD COLUMN status VARCHAR(225) NOT NULL"); }
 	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_sender_ids` LIKE 'date_submitted'");
 	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_sender_ids ADD COLUMN date_submitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP"); }
+
+	//Create Feature Prices Table
+	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_feature_prices (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id), feature_name VARCHAR(255) NOT NULL, price DECIMAL(10,2) NOT NULL DEFAULT 0.00)");
 	
 	
 	if(isset($_SESSION["sup_adm_session"])){

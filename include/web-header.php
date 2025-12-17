@@ -170,6 +170,26 @@ $tab = $_GET['tab'] ?? '';
 			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">SMS Payments</button>
 		</a>
 	</div>
+
+	<?php if(isset($_SESSION["sup_adm_session"])){ ?>
+	<a onclick="osList('sub-feature-management');">
+		<button onmouseover="grayImg(this,'feature-management-img','smts-black.png'); grayDropImg('feature-management-drop-img','drop-forward.png');" onmouseout="whiteImg(this,'feature-management-img','smts-white.png'); whiteDropImg('feature-management-drop-img','drop-forward.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
+			<img id="feature-management-img" src="imgfile/white/smts-white.png"/>
+			Feature Management
+			<img id="feature-management-drop-img" src="imgfile/white/drop-forward.png" style="float: right;"/>
+		</button>
+	</a><br>
+	<?php } ?>
+
+	<div id="sub-feature-management" style="display: none; margin: 0 0 0 -16px;" class="color-7 bg-2 mobile-width-100  system-width-100 mobile-padding-left-5 system-padding-left-10 mobile-padding-right-5 system-padding-right-10 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
+		<a href="/bc-admin.php?page=smgt_feature_pricing&tab=true">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Feature Pricing</button>
+		</a><br>
+
+		<a href="/bc-admin.php?page=smgt_feature_activations&tab=true">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Feature Activations</button>
+		</a>
+	</div>
 	
 	<?php if(!isset($_SESSION["sup_adm_session"])){ ?>
 	<a onclick="osList('sub-evaluation');">

@@ -1,5 +1,10 @@
 <?php
-if (in_array($user_identifier_auth_id, ["mod_adm", "adm_staff"])) {
+$school_id = $get_logged_user_details['school_id_number'];
+$feature_name = 'data_cleanup';
+$activation_query = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id_number='$school_id' AND feature_name='$feature_name' AND activation_status='active'");
+
+if (mysqli_num_rows($activation_query) > 0) {
+    if (in_array($user_identifier_auth_id, ["mod_adm", "adm_staff"])) {
 ?>
 <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
     <center>
@@ -41,4 +46,11 @@ if (in_array($user_identifier_auth_id, ["mod_adm", "adm_staff"])) {
         </div>
     </center>
 </div>
-<?php } ?>
+<?php
+    }
+} else {
+    // Redirect to activation request page
+    header("Location: /bc-admin.php?page=smgt_request_activation&feature=$feature_name");
+    exit();
+}
+?>

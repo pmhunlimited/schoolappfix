@@ -1,4 +1,11 @@
-<?php if(isset($_SESSION["sup_adm_session"])){ ?>
+<?php
+$school_id = $get_logged_user_details['school_id_number'];
+$feature_name = 'cbt';
+$activation_query = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id_number='$school_id' AND feature_name='$feature_name' AND activation_status='active'");
+
+if (mysqli_num_rows($activation_query) > 0 || isset($_SESSION["sup_adm_session"])) {
+    if(isset($_SESSION["sup_adm_session"])){
+?>
 <?php if(strip_tags($_GET['tab']) == "true"){ ?>
     <?php
         if(mysqli_num_rows(mysqli_query($connection_server, "SELECT * FROM sm_school_details")) > 0){
@@ -456,4 +463,11 @@
 	}
 
 ?>
-<?php } ?> 
+<?php
+    }
+} else {
+    // Redirect to activation request page
+    header("Location: /bc-admin.php?page=smgt_request_activation&feature=$feature_name");
+    exit();
+}
+?>
