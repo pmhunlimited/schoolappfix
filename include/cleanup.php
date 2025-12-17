@@ -5,6 +5,28 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
     <center>
         <div class="container-box bg-3 mobile-width-90 system-width-50 mobile-margin-top-2 system-margin-top-2 mobile-padding-top-2 mobile-padding-bottom-2">
             <h2 class="color-4">Data Cleanup Tool</h2>
+
+            <?php if (isset($_GET['status']) && isset($_GET['status_msg'])) {
+                $status = strip_tags($_GET['status']);
+                $status_msg = strip_tags(urldecode($_GET['status_msg']));
+                $msg_class = '';
+                switch ($status) {
+                    case 'success':
+                        $msg_class = 'bg-success'; // A green background
+                        break;
+                    case 'error':
+                        $msg_class = 'bg-8'; // A red background
+                        break;
+                    default:
+                        $msg_class = 'bg-10'; // An info/neutral background
+                        break;
+                }
+            ?>
+            <div class="container-box <?php echo $msg_class; ?> mobile-width-90 system-width-90 mobile-padding-top-1 mobile-padding-bottom-1 mobile-margin-top-1">
+                <p class="color-4"><?php echo $status_msg; ?></p>
+            </div>
+            <?php } ?>
+
             <p class="color-5">Use this tool to clean up orphaned data in your school's database.</p>
             <div class="container-box bg-10 mobile-width-90 system-width-90 mobile-padding-top-2 mobile-padding-bottom-2">
                 <h3 class="color-4">Clean Orphaned Subject Records</h3>
