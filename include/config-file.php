@@ -286,6 +286,9 @@
 
 	//Create Feature Prices Table
 	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_feature_prices (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id), feature_name VARCHAR(255) NOT NULL, price DECIMAL(10,2) NOT NULL DEFAULT 0.00)");
+
+	//Create Feature Activations Table
+	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_feature_activations (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id), school_id_number VARCHAR(225) NOT NULL, feature_name VARCHAR(255) NOT NULL, activation_status ENUM('pending', 'active', 'inactive') NOT NULL DEFAULT 'inactive', payment_proof VARCHAR(255), date_requested TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 	
 	
 	if(isset($_SESSION["sup_adm_session"])){
