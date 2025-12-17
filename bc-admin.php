@@ -404,6 +404,10 @@
 		include("include/func/sms-sender-id.php");
 	}
 
+	if(strip_tags($_GET["page"]) == "smgt_cleanup"){
+		include("include/func/cleanup.php");
+	}
+
 	if(strip_tags($_GET["page"]) == "smgt_sms_send"){
 		include("include/func/sms-send.php");
 	}
@@ -680,6 +684,9 @@
 			include("include/sms-sender-id.php");
 		}
 		
+		if(strip_tags($_GET["page"]) == "smgt_cleanup"){
+			include("include/cleanup.php");
+		}
 		
 	?>
 

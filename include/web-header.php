@@ -412,6 +412,9 @@ $tab = $_GET['tab'] ?? '';
 		</a><br> -->
 		<a href="/bc-admin.php?page=smgt_general_settings&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
 			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">General Settings</button>
+		</a><br>
+		<a href="/bc-admin.php?page=smgt_cleanup&tab=true&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Data Cleanup</button>
 		</a>
 	</div>
 	<?php } ?>
