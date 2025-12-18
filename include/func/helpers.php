@@ -3,16 +3,16 @@ if (!function_exists('is_feature_active')) {
     /**
      * Checks if a specific feature is active for a given school.
      *
-     * @param string $school_id The ID of the school.
+     * @param string $school_id_number The ID of the school.
      * @param string $feature_name The name of the feature (e.g., 'bulk_print').
      * @param mysqli $connection The database connection object.
      * @return bool True if the feature is active, false otherwise.
      */
-    function is_feature_active($school_id, $feature_name, $connection) {
-        $school_id_safe = mysqli_real_escape_string($connection, $school_id);
+    function is_feature_active($school_id_number, $feature_name, $connection) {
+        $school_id_number_safe = mysqli_real_escape_string($connection, $school_id_number);
         $feature_name_safe = mysqli_real_escape_string($connection, $feature_name);
 
-        $query = "SELECT activation_status FROM sm_feature_activations WHERE school_id='$school_id_safe' AND feature_name='$feature_name_safe'";
+        $query = "SELECT activation_status FROM sm_feature_activations WHERE school_id_number='$school_id_number_safe' AND feature_name='$feature_name_safe'";
         $result = mysqli_query($connection, $query);
 
         if ($result && mysqli_num_rows($result) > 0) {

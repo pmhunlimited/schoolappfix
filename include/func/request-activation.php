@@ -5,7 +5,7 @@ if ($user_identifier_auth_id != "mod_adm") {
     exit();
 }
 
-$school_id = $get_logged_user_details['school_id_number'];
+$school_id_number = $get_logged_user_details['school_id_number'];
 $feature_name = isset($_GET['feature']) ? mysqli_real_escape_string($connection_server, $_GET['feature']) : '';
 $status_msg = isset($_GET['status_msg']) ? htmlspecialchars($_GET['status_msg']) : '';
 $status_type = isset($_GET['status_type']) ? htmlspecialchars($_GET['status_type']) : 'info';
@@ -39,7 +39,7 @@ if (isset($_POST['submit-payment-proof-btn'])) {
             mkdir($target_dir, 0755, true);
         }
 
-        $filename = "proof_" . $school_id . "_" . $feature_name . "_" . time() . "." . strtolower(pathinfo($_FILES["payment_proof"]["name"], PATHINFO_EXTENSION));
+        $filename = "proof_" . $school_id_number . "_" . $feature_name . "_" . time() . "." . strtolower(pathinfo($_FILES["payment_proof"]["name"], PATHINFO_EXTENSION));
         $target_file = $target_dir . $filename;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -55,14 +55,14 @@ if (isset($_POST['submit-payment-proof-btn'])) {
 
         if ($uploadOk && move_uploaded_file($_FILES["payment_proof"]["tmp_name"], $target_file)) {
             // Check if a request already exists
-            $check_q = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id='$school_id' AND feature_name='$feature_name'");
+            $check_q = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id_number='$school_id_number' AND feature_name='$feature_name'");
             if (mysqli_num_rows($check_q) > 0) {
                 // Update existing request
-                $update_q = "UPDATE sm_feature_activations SET activation_status='pending', payment_method='bank_transfer', payment_status='pending', payment_proof_path='$target_file', request_date=NOW() WHERE school_id='$school_id' AND feature_name='$feature_name'";
+                $update_q = "UPDATE sm_feature_activations SET activation_status='pending', payment_method='bank_transfer', payment_status='pending', payment_proof_path='$target_file', request_date=NOW() WHERE school_id_number='$school_id_number' AND feature_name='$feature_name'";
                 $query_result = mysqli_query($connection_server, $update_q);
             } else {
                 // Insert new request
-                $insert_q = "INSERT INTO sm_feature_activations (school_id, feature_name, activation_status, payment_method, payment_status, payment_proof_path, request_date) VALUES ('$school_id', '$feature_name', 'pending', 'bank_transfer', 'pending', '$target_file', NOW())";
+                $insert_q = "INSERT INTO sm_feature_activations (school_id_number, feature_name, activation_status, payment_method, payment_status, payment_proof_path, request_date) VALUES ('$school_id_number', '$feature_name', 'pending', 'bank_transfer', 'pending', '$target_file', NOW())";
                 $query_result = mysqli_query($connection_server, $insert_q);
             }
 
@@ -173,9 +173,9 @@ function payWithPaystack() {
         email: '<?php echo htmlspecialchars($get_logged_user_details['email']); ?>',
         amount: <?php echo $feature_price * 100; ?>, // Amount in kobo
         currency: 'NGN',
-        ref: '<?php echo $feature_name . '_' . $school_id . '_' . time(); ?>',
+        ref: '<?php echo $feature_name . '_' . $school_id_number . '_' . time(); ?>',
         metadata: {
-            school_id: '<?php echo $school_id; ?>',
+            school_id_number: '<?php echo $school_id_number; ?>',
             feature_name: '<?php echo $feature_name; ?>'
         },
         callback: function(response) {

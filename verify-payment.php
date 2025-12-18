@@ -52,18 +52,18 @@ $result = json_decode($response);
 if ($result->status == true && $result->data->status == 'success') {
     // Payment is successful
     $metadata = $result->data->metadata;
-    $school_id = $metadata->school_id;
+    $school_id_number = $metadata->school_id_number;
     $feature_name = $metadata->feature_name;
     $amount_paid = $result->data->amount / 100; // Amount is in kobo
     $transaction_ref = $result->data->reference;
 
     // Sanitize data before DB operation
-    $school_id_safe = mysqli_real_escape_string($connection_server, $school_id);
+    $school_id_number_safe = mysqli_real_escape_string($connection_server, $school_id_number);
     $feature_name_safe = mysqli_real_escape_string($connection_server, $feature_name);
     $transaction_ref_safe = mysqli_real_escape_string($connection_server, $transaction_ref);
 
     // Check if an activation record already exists
-    $check_q = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id='$school_id_safe' AND feature_name='$feature_name_safe'");
+    $check_q = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id_number='$school_id_number_safe' AND feature_name='$feature_name_safe'");
 
     if (mysqli_num_rows($check_q) > 0) {
         // Update existing record
@@ -74,12 +74,12 @@ if ($result->status == true && $result->data->status == 'success') {
                          transaction_ref='$transaction_ref_safe',
                          activation_date=NOW(),
                          request_date=NOW()
-                     WHERE school_id='$school_id_safe' AND feature_name='$feature_name_safe'";
+                     WHERE school_id_number='$school_id_number_safe' AND feature_name='$feature_name_safe'";
         $query_result = mysqli_query($connection_server, $update_q);
     } else {
         // Insert new record
-        $insert_q = "INSERT INTO sm_feature_activations (school_id, feature_name, activation_status, payment_method, payment_status, transaction_ref, activation_date, request_date)
-                     VALUES ('$school_id_safe', '$feature_name_safe', 'active', 'paystack', 'completed', '$transaction_ref_safe', NOW(), NOW())";
+        $insert_q = "INSERT INTO sm_feature_activations (school_id_number, feature_name, activation_status, payment_method, payment_status, transaction_ref, activation_date, request_date)
+                     VALUES ('$school_id_number_safe', '$feature_name_safe', 'active', 'paystack', 'completed', '$transaction_ref_safe', NOW(), NOW())";
         $query_result = mysqli_query($connection_server, $insert_q);
     }
 

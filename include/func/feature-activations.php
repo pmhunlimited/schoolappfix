@@ -12,16 +12,16 @@ if (isset($_GET['status_msg'])) {
 
 // Handle feature enable/disable actions
 if (isset($_POST['toggle_feature_btn'])) {
-    $school_id = mysqli_real_escape_string($connection_server, $_POST['school_id']);
+    $school_id_number = mysqli_real_escape_string($connection_server, $_POST['school_id_number']);
     $feature_name = mysqli_real_escape_string($connection_server, $_POST['feature_name']);
     $action = mysqli_real_escape_string($connection_server, $_POST['action']);
 
-    $check_exists_q = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id='$school_id' AND feature_name='$feature_name'");
+    $check_exists_q = mysqli_query($connection_server, "SELECT * FROM sm_feature_activations WHERE school_id_number='$school_id_number' AND feature_name='$feature_name'");
 
     if ($action == 'enable') {
         if (mysqli_num_rows($check_exists_q) > 0) {
             // Update existing record
-            $update_q = "UPDATE sm_feature_activations SET activation_status='active', payment_method='manual', payment_status='completed', activation_date=NOW() WHERE school_id='$school_id' AND feature_name='$feature_name'";
+            $update_q = "UPDATE sm_feature_activations SET activation_status='active', payment_method='manual', payment_status='completed', activation_date=NOW() WHERE school_id_number='$school_id_number' AND feature_name='$feature_name'";
             if (mysqli_query($connection_server, $update_q)) {
                 $status_msg = "Feature enabled successfully.";
             } else {
@@ -29,7 +29,7 @@ if (isset($_POST['toggle_feature_btn'])) {
             }
         } else {
             // Insert new record
-            $insert_q = "INSERT INTO sm_feature_activations (school_id, feature_name, activation_status, payment_method, payment_status, activation_date, request_date) VALUES ('$school_id', '$feature_name', 'active', 'manual', 'completed', NOW(), NOW())";
+            $insert_q = "INSERT INTO sm_feature_activations (school_id_number, feature_name, activation_status, payment_method, payment_status, activation_date, request_date) VALUES ('$school_id_number', '$feature_name', 'active', 'manual', 'completed', NOW(), NOW())";
             if (mysqli_query($connection_server, $insert_q)) {
                 $status_msg = "Feature enabled successfully.";
             } else {
@@ -38,7 +38,7 @@ if (isset($_POST['toggle_feature_btn'])) {
         }
     } elseif ($action == 'disable') {
         // We only update, as there must be a record to disable
-        $update_q = "UPDATE sm_feature_activations SET activation_status='inactive' WHERE school_id='$school_id' AND feature_name='$feature_name'";
+        $update_q = "UPDATE sm_feature_activations SET activation_status='inactive' WHERE school_id_number='$school_id_number' AND feature_name='$feature_name'";
         if (mysqli_query($connection_server, $update_q)) {
             $status_msg = "Feature disabled successfully.";
         } else {
@@ -102,11 +102,11 @@ $features = ['bulk_print', 'data_cleanup', 'cbt'];
                     $schools_query = mysqli_query($connection_server, "SELECT * FROM sm_school_details ORDER BY school_name ASC");
                     if (mysqli_num_rows($schools_query) > 0) {
                         while ($school = mysqli_fetch_assoc($schools_query)) {
-                            $school_id = $school['school_id_number'];
+                            $school_id_number = $school['school_id_number'];
 
                             // Get all activations for this school at once
                             $activations = [];
-                            $act_query = mysqli_query($connection_server, "SELECT feature_name, activation_status FROM sm_feature_activations WHERE school_id='$school_id'");
+                            $act_query = mysqli_query($connection_server, "SELECT feature_name, activation_status FROM sm_feature_activations WHERE school_id_number='$school_id_number'");
                             while($row = mysqli_fetch_assoc($act_query)) {
                                 $activations[$row['feature_name']] = $row['activation_status'];
                             }
@@ -120,7 +120,7 @@ $features = ['bulk_print', 'data_cleanup', 'cbt'];
                         <td>
                             <span class="status-<?php echo $is_active ? 'active' : 'inactive'; ?>"><?php echo ucfirst($status); ?></span>
                             <form method="post" style="display: inline-block; margin-left: 10px;">
-                                <input type="hidden" name="school_id" value="<?php echo $school_id; ?>">
+                                <input type="hidden" name="school_id_number" value="<?php echo $school_id_number; ?>">
                                 <input type="hidden" name="feature_name" value="<?php echo $feature; ?>">
                                 <?php if ($is_active): ?>
                                     <input type="hidden" name="action" value="disable">
@@ -159,7 +159,7 @@ $features = ['bulk_print', 'data_cleanup', 'cbt'];
                     $pending_query = mysqli_query($connection_server, "
                         SELECT fa.*, sd.school_name
                         FROM sm_feature_activations fa
-                        JOIN sm_school_details sd ON fa.school_id = sd.school_id_number
+                        JOIN sm_school_details sd ON fa.school_id_number = sd.school_id_number
                         WHERE fa.payment_method = 'bank_transfer' AND fa.activation_status = 'pending'
                         ORDER BY fa.request_date DESC
                     ");
