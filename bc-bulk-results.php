@@ -37,22 +37,22 @@ include("include/func/helpers.php");
 <div id="bulk-printable-area">
 <?php
 if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['class_id']) && isset($_GET['session_id']) && isset($_GET['term_id'])) {
-    $school_id = mysqli_real_escape_string($connection_server, trim(strip_tags($_GET['school_id'])));
+    $school_id_number = $get_logged_user_details['school_id_number'];
     $class_id = mysqli_real_escape_string($connection_server, trim(strip_tags($_GET['class_id'])));
     $session_id = mysqli_real_escape_string($connection_server, trim(strip_tags($_GET['session_id'])));
     $term_id_number = mysqli_real_escape_string($connection_server, trim(strip_tags($_GET['term_id'])));
 
-    $students_query = mysqli_query($connection_server, "SELECT admission_number FROM sm_students WHERE school_id_number='$school_id' AND current_class='$class_id' AND session='$session_id'");
+    $students_query = mysqli_query($connection_server, "SELECT admission_number FROM sm_students WHERE school_id_number='$school_id_number' AND current_class='$class_id' AND session='$session_id'");
 
     if (mysqli_num_rows($students_query) > 0) {
         while ($student = mysqli_fetch_assoc($students_query)) {
             $admission_number = $student['admission_number'];
 
-            $get_sch_name = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_school_details WHERE school_id_number='$school_id' LIMIT 1"));
-            $get_student_details = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='$school_id' && admission_number='$admission_number'"));
-            $search_student_to_results_in_database = mysqli_query($connection_server, "SELECT * FROM sm_results WHERE school_id_number='$school_id' && numeric_class_name='$class_id' && session='$session_id' && term_id_number='$term_id_number' && admission_number='$admission_number' ORDER BY subject_code ASC");
-            $search_student_to_result_remarks_in_database = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_result_remarks WHERE school_id_number='$school_id' && numeric_class_name='$class_id' && session='$session_id' && term_id_number='$term_id_number' && admission_number='$admission_number' LIMIT 1"));
-            $get_term_details = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_terms WHERE school_id_number='$school_id' && id_number='$term_id_number'"));
+            $get_sch_name = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_school_details WHERE school_id_number='$school_id_number' LIMIT 1"));
+            $get_student_details = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='$school_id_number' && admission_number='$admission_number'"));
+            $search_student_to_results_in_database = mysqli_query($connection_server, "SELECT * FROM sm_results WHERE school_id_number='$school_id_number' && numeric_class_name='$class_id' && session='$session_id' && term_id_number='$term_id_number' && admission_number='$admission_number' ORDER BY subject_code ASC");
+            $search_student_to_result_remarks_in_database = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_result_remarks WHERE school_id_number='$school_id_number' && numeric_class_name='$class_id' && session='$session_id' && term_id_number='$term_id_number' && admission_number='$admission_number' LIMIT 1"));
+            $get_term_details = mysqli_fetch_array(mysqli_query($connection_server, "SELECT * FROM sm_terms WHERE school_id_number='$school_id_number' && id_number='$term_id_number'"));
 
             if (mysqli_num_rows($search_student_to_results_in_database) > 0) {
 ?>
@@ -63,8 +63,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 				<div style="border:1px solid var(--color-4v); text-align: left;" class="container-box bg-3 mobile-width-96 system-width-96 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
 					<div style="display: flex; flex-direction: row; align-items: center;" class="container-box bg-3 mobile-width-100 system-width-100">
 						<div style="text-align: left;" class="container-box bg-3 mobile-width-30 system-width-30">
-							<?php if(file_exists("dataimg/school_".$school_id.".png")){ ?>
-							<img style="display: inline-block;" class="mobile-width-100 system-width-100" src="dataimg/school_<?php echo $school_id; ?>.png" />
+							<?php if(file_exists("dataimg/school_".$school_id_number.".png")){ ?>
+							<img style="display: inline-block;" class="mobile-width-100 system-width-100" src="dataimg/school_<?php echo $school_id_number; ?>.png" />
 							<?php }else{ ?>
 							<img style="display: inline-block;" class="mobile-width-100 system-width-100" src="imgfile/logo.png" />
 							<?php } ?>
@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 							<span style="display: inline-block;" class="color-1 mobile-font-size-17 system-font-size-25"><?php echo $get_sch_name["school_address"].", ".$get_sch_name["city"]." ".$get_sch_name["state"]; ?></span><br>
 
 							<!-- Title -->
-							<span style="display: inline-block;" class="color-1 mobile-font-size-15 system-font-size-18">PROGRESS REPORT <?php echo strtoupper(termName($term_id_number, $school_id))." ".str_replace("-","/",$session_id); ?></span>
+							<span style="display: inline-block;" class="color-1 mobile-font-size-15 system-font-size-18">PROGRESS REPORT <?php echo strtoupper(termName($term_id_number, $school_id_number))." ".str_replace("-","/",$session_id); ?></span>
 
 						</div>
 					</div>
@@ -101,7 +101,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 							</div>
 							<div style="display: inline-block; border-width: 0 1px 1px 0; border-style: none solid solid none; border-color: transparent var(--color-4) var(--color-4) transparent; text-align: ;" class="container-box bg-3 mobile-width-72 system-width-73 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
 								<!-- Matric No -->
-								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo "ST/".$school_id."/".$admission_number; ?></span>
+								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo "ST/".$school_id_number."/".$admission_number; ?></span>
 
 							</div><br>
 
@@ -112,7 +112,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 							</div>
 							<div style="display: inline-block; border-width: 0 1px 1px 0; border-style: none solid solid none; border-color: transparent var(--color-4) var(--color-4) transparent; text-align: ;" class="container-box bg-3 mobile-width-72 system-width-73 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
 								<!-- Class-Name -->
-								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo ucwords(studentClassName($class_id,$school_id)); ?></span>
+								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo ucwords(studentClassName($class_id,$school_id_number)); ?></span>
 
 							</div><br>
 
@@ -123,7 +123,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 							</div>
 							<div style="display: inline-block; border-width: 0 1px 1px 0; border-style: none solid solid none; border-color: transparent var(--color-4) var(--color-4) transparent; text-align: ;" class="container-box bg-3 mobile-width-72 system-width-73 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
 								<!-- Term -->
-								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo ucwords(termName($term_id_number, $school_id)); ?></span>
+								<span style="display: inline-block;" class="color-1 mobile-font-size-14 system-font-size-16"><?php echo ucwords(termName($term_id_number, $school_id_number)); ?></span>
 
 							</div>
 							<div style="display: inline-block; border-width: 0 0 1px 0; border-style: none none solid none; border-color: transparent transparent var(--color-4) transparent; text-align: center;" class="container-box bg-4 mobile-width-25 system-width-25 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
@@ -160,8 +160,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 						</div>
 
 						<div style="display: inline-block; text-align: center;" id="student-passport-container_<?php echo $admission_number; ?>" class="container-box bg-3 mobile-width-24 system-width-19 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-0 system-padding-top-0 mobile-padding-bottom-0 system-padding-bottom-0">
-							<?php if(file_exists("dataimg/student_".$school_id."_".$admission_number.".png")){ ?>
-							<img style="display: inline-block; object-fit: cover; height: 0px; margin: 0; padding: 0;" id="student-passport_<?php echo $admission_number; ?>" class="mobile-margin-top-0 system-margin-top-0" src="dataimg/student_<?php echo $school_id.'_'.$admission_number; ?>.png" /><br>
+							<?php if(file_exists("dataimg/student_".$school_id_number."_".$admission_number.".png")){ ?>
+							<img style="display: inline-block; object-fit: cover; height: 0px; margin: 0; padding: 0;" id="student-passport_<?php echo $admission_number; ?>" class="mobile-margin-top-0 system-margin-top-0" src="dataimg/student_<?php echo $school_id_number.'_'.$admission_number; ?>.png" /><br>
 							<?php }else{ ?>
 							<img style="display: inline-block; object-fit: cover; height: 0px; margin: 0; padding: 0;" id="student-passport_<?php echo $admission_number; ?>" class="mobile-margin-top-0 system-margin-top-0" src="imgfile/Student.png" /><br>
 							<?php } ?>
@@ -252,15 +252,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 										if($aggregate_score > 0){
 											echo
 											'<tr>
-												<td>'.subjectName($student_exam_subject_details["subject_code"], $school_id).'</td>
+												<td>'.subjectName($student_exam_subject_details["subject_code"], $school_id_number).'</td>
 												<td>'.$first_ca.'</td>
 												<td>'.$second_ca.'</td>
 												<td>'.$third_ca.'</td>
 												<td>'.$exam_mark.'</td>
 												<td>'.($aggregate_score).'</td>
 												<td>100</td>
-												<td>'.getScoreGrade($aggregate_score,'grade',$school_id).'</td>
-												<td>'.getScoreGrade($aggregate_score,'remark',$school_id).'</td>
+												<td>'.getScoreGrade($aggregate_score,'grade',$school_id_number).'</td>
+												<td>'.getScoreGrade($aggregate_score,'remark',$school_id_number).'</td>
 											</tr>';
 
 										$subject_count += 1;
