@@ -190,7 +190,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 								$mark_obtainable_count = 0;
 
 								if(mysqli_num_rows($search_student_to_results_in_database) > 0){
-                                    mysqli_data_seek($search_student_to_results_in_database, 0);
 									while($student_exam_subject_details = mysqli_fetch_array($search_student_to_results_in_database)){
 										if($student_exam_subject_details["first_ca"] == ""){
 											$first_ca = "-";

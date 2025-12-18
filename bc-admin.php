@@ -15,6 +15,7 @@
 		}
 	}
 	include("include/config-file.php");
+	include("include/func/helpers.php");
 	if ((strip_tags($_GET["page"]) == "smgt_sms_settings" || strip_tags($_GET["page"]) == "smgt_sms_payments") && !isset($_SESSION["sup_adm_session"])) {
 		header("Location: /bc-admin.php?page=smgt_dashboard");
 	}
