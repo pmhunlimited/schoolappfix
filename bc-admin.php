@@ -655,6 +655,13 @@
 			include("include/sms-sender-id.php");
 		}
 		
+		if (strip_tags($_GET["page"]) == "smgt_bulk_report_card") {
+			include("include/func/bulk-report-card.php");
+		}
+
+		if (strip_tags($_GET["page"]) == "smgt_data_cleanup") {
+			include("include/func/data-cleanup.php");
+		}
 		
 	?>
 

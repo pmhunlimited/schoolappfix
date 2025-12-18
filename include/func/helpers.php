@@ -1,29 +1,4 @@
 <?php
-if (!function_exists('is_feature_active')) {
-    /**
-     * Checks if a specific feature is active for a given school.
-     *
-     * @param string $school_id_number The ID of the school.
-     * @param string $feature_name The name of the feature (e.g., 'bulk_print').
-     * @param mysqli $connection The database connection object.
-     * @return bool True if the feature is active, false otherwise.
-     */
-    function is_feature_active($school_id_number, $feature_name, $connection) {
-        $school_id_number_safe = mysqli_real_escape_string($connection, $school_id_number);
-        $feature_name_safe = mysqli_real_escape_string($connection, $feature_name);
-
-        $query = "SELECT activation_status FROM sm_feature_activations WHERE school_id_number='$school_id_number_safe' AND feature_name='$feature_name_safe'";
-        $result = mysqli_query($connection, $query);
-
-        if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            return $row['activation_status'] === 'active';
-        }
-
-        return false;
-    }
-}
-
 if (!function_exists('studentClassName')) {
     function studentClassName($class_info, $school_id) {
         global $connection_server;
@@ -63,13 +38,13 @@ if (!function_exists('termName')) {
 if (!function_exists('getScoreGrade')) {
     function getScoreGrade($score, $return_type, $school_id) {
         global $connection_server;
-        $get_grade_details = mysqli_query($connection_server, "SELECT * FROM sm_grades WHERE school_id_number='$school_id' AND ($score >= mark_from AND $score <= mark_to)");
+        $get_grade_details = mysqli_query($connection_server, "SELECT * FROM sm_grades WHERE school_id_number='$school_id' AND ($score >= mark_from AND $score <= mark_upto)");
         if(mysqli_num_rows($get_grade_details) > 0){
             $grade_details = mysqli_fetch_array($get_grade_details);
             if($return_type == "grade"){
-                return $grade_details["name"];
+                return $grade_details["grade_name"];
             } else {
-                return $grade_details["remark"];
+                return $grade_details["grade_comment"];
             }
         } else {
             return "N/A";

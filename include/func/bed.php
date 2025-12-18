@@ -88,8 +88,8 @@
 	$search_sqli_statements .= "(".str_replace("\n"," && school_id_number=".$get_logged_user_details['school_id_number'].") OR (", trim($search_sqli_statement))." && school_id_number=".$get_logged_user_details['school_id_number'].")";
 	
 	if((isset($_GET["search"])) && (trim(strip_tags($_GET["search"])) !== "")){
-		$select_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE $search_sqli_statements ".$user_bed_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
-		$select_all_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE $search_sqli_statements ".$user_bed_statement_auth);
+		$select_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE $search_sqli_statements ".(!empty($user_bed_statement_auth) ? $user_bed_statement_auth : "" )." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
+		$select_all_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE $search_sqli_statements ".(!empty($user_bed_statement_auth) ? $user_bed_statement_auth : "" ));
 	}else{
 		$select_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_bed_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
 		$select_all_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_bed_statement_auth);

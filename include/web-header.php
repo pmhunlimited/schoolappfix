@@ -412,7 +412,21 @@ $tab = $_GET['tab'] ?? '';
 	</div>
 	<?php } ?>
 	
-	
+	<?php if (!isset($_SESSION["sup_adm_session"])) { ?>
+		<a href="/bc-admin.php?page=smgt_bulk_report_card&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button onmouseover="grayImg(this,'report-card-img','report.png');" onmouseout="whiteImg(this,'report-card-img','report.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
+				<img id="report-card-img" src="imgfile/white/report.png"/>
+				Bulk Report Card Printing
+			</button>
+		</a><br>
+		<a href="/bc-admin.php?page=smgt_data_cleanup&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button onmouseover="grayImg(this,'cleanup-img','setting.png');" onmouseout="whiteImg(this,'cleanup-img','setting.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
+				<img id="cleanup-img" src="imgfile/white/setting.png"/>
+				Data Cleanup
+			</button>
+		</a><br>
+	<?php } ?>
+
 	<?php
 		if(!isset($_SESSION["sup_adm_session"]) && !isset($_SESSION["mod_adm_session"]) && isset($_SESSION["adm_staff_session"]) || isset($_SESSION["teacher_session"]) || isset($_SESSION["stu_par_session"]) || isset($_SESSION["stu_session"])){
 	?>
