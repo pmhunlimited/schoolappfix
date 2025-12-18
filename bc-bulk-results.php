@@ -57,7 +57,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
             if (mysqli_num_rows($search_student_to_results_in_database) > 0) {
 ?>
 <div class="page-break">
-<div id="printDiv" class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
+<div id="printDiv_<?php echo $admission_number; ?>" class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
 		<center>
 			<div style="border:1px solid var(--color-4); " class="container-box bg-2 mobile-width-96 system-width-70 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-2 system-padding-top-2 mobile-padding-bottom-2 system-padding-bottom-2">
 				<div style="border:1px solid var(--color-4v); text-align: left;" class="container-box bg-3 mobile-width-96 system-width-96 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
@@ -81,7 +81,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 					</div>
 				</div>
 				<div style="border:1px solid var(--color-4v);" class="container-box bg-3 mobile-width-96 system-width-96 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
-					<div style="border:1px solid var(--color-4); text-align: left; display: flex; flex-direction: row;" id="student-detail-container" class="container-box bg-3 mobile-width-100 system-width-90 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-0 system-padding-top-0 mobile-padding-bottom-0 system-padding-bottom-0">
+					<div style="border:1px solid var(--color-4); text-align: left; display: flex; flex-direction: row;" id="student-detail-container_<?php echo $admission_number; ?>" class="container-box bg-3 mobile-width-100 system-width-90 mobile-margin-top-1 system-margin-top-1 mobile-padding-top-0 system-padding-top-0 mobile-padding-bottom-0 system-padding-bottom-0">
 						<div style="display: inline-block;" class="container-box bg-3 mobile-width-75 system-width-80 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-0 system-padding-top-0 mobile-padding-bottom-0 system-padding-bottom-0">
 							<div style="display: inline-block; border-width: 0 0 1px 0; border-style: none none solid none; border-color: transparent transparent var(--color-4) transparent; text-align: center;" class="container-box bg-4 mobile-width-25 system-width-25 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
 								<!-- Title Name -->
@@ -159,11 +159,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 
 						</div>
 
-						<div style="display: inline-block; text-align: center;" id="student-passport-container" class="container-box bg-3 mobile-width-24 system-width-19 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-0 system-padding-top-0 mobile-padding-bottom-0 system-padding-bottom-0">
+						<div style="display: inline-block; text-align: center;" id="student-passport-container_<?php echo $admission_number; ?>" class="container-box bg-3 mobile-width-24 system-width-19 mobile-margin-top-0 system-margin-top-0 mobile-padding-top-0 system-padding-top-0 mobile-padding-bottom-0 system-padding-bottom-0">
 							<?php if(file_exists("dataimg/student_".$school_id."_".$admission_number.".png")){ ?>
-							<img style="display: inline-block; object-fit: cover; height: 0px; margin: 0; padding: 0;" id="student-passport" class="mobile-margin-top-0 system-margin-top-0" src="dataimg/student_<?php echo $school_id.'_'.$admission_number; ?>.png" /><br>
+							<img style="display: inline-block; object-fit: cover; height: 0px; margin: 0; padding: 0;" id="student-passport_<?php echo $admission_number; ?>" class="mobile-margin-top-0 system-margin-top-0" src="dataimg/student_<?php echo $school_id.'_'.$admission_number; ?>.png" /><br>
 							<?php }else{ ?>
-							<img style="display: inline-block; object-fit: cover; height: 0px; margin: 0; padding: 0;" id="student-passport" class="mobile-margin-top-0 system-margin-top-0" src="imgfile/Student.png" /><br>
+							<img style="display: inline-block; object-fit: cover; height: 0px; margin: 0; padding: 0;" id="student-passport_<?php echo $admission_number; ?>" class="mobile-margin-top-0 system-margin-top-0" src="imgfile/Student.png" /><br>
 							<?php } ?>
 						</div>
 					</div>
@@ -317,6 +317,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'bulk-print' && isset($_GET['cl
 		</center>
 	</div>
 </div>
+<script>
+    function resizePassport(admissionNumber) {
+        const studentPassport = document.getElementById("student-passport_" + admissionNumber);
+        const studentDetailContainerHeight = document.getElementById("student-detail-container_" + admissionNumber).clientHeight;
+        if (studentDetailContainerHeight !== studentPassport.clientHeight) {
+            studentPassport.style.width = "80%";
+            studentPassport.style.height = (studentDetailContainerHeight * (100 / 100)) + "px";
+        }
+    }
+    setInterval(function() {
+        resizePassport('<?php echo $admission_number; ?>');
+    }, 1000);
+</script>
 <?php
             }
         }

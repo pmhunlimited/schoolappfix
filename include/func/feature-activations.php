@@ -77,6 +77,7 @@ $features = ['bulk_print', 'data_cleanup', 'cbt'];
 <div class="container-box bg-2 mobile-width-100 system-width-100">
     <center>
         <div class="container-box bg-3 mobile-width-90 system-width-80 mobile-margin-top-2 system-margin-top-2 mobile-padding-top-2 mobile-padding-bottom-2">
+            <h2 class="color-4">Feature Activation Requests</h2>
             <?php if ($status_msg): ?>
             <div class="bc-form-status-msg" style="display: block !important;"><?php echo $status_msg; ?></div>
             <?php endif; ?>
@@ -89,110 +90,114 @@ $features = ['bulk_print', 'data_cleanup', 'cbt'];
             <div class="tab-content">
                 <?php if ($active_tab == 'manage'): ?>
                 <div id="manage-activations">
-                    <table class="bc-table">
-                        <thead>
-                            <tr>
-                                <th>School Name</th>
-                                <th>Bulk Print</th>
-                                <th>Data Cleanup</th>
-                                <th>CBT</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $schools_query = mysqli_query($connection_server, "SELECT * FROM sm_school_details ORDER BY school_name ASC");
-                            if (mysqli_num_rows($schools_query) > 0) {
-                                while ($school = mysqli_fetch_assoc($schools_query)) {
-                                    $school_id_number = $school['school_id_number'];
+                    <div class="scroll-box bg-2 mobile-width-100 system-width-100">
+                        <table class="bc-table">
+                            <thead>
+                                <tr>
+                                    <th>School Name</th>
+                                    <th>Bulk Print</th>
+                                    <th>Data Cleanup</th>
+                                    <th>CBT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $schools_query = mysqli_query($connection_server, "SELECT * FROM sm_school_details ORDER BY school_name ASC");
+                                if (mysqli_num_rows($schools_query) > 0) {
+                                    while ($school = mysqli_fetch_assoc($schools_query)) {
+                                        $school_id_number = $school['school_id_number'];
 
-                                    // Get all activations for this school at once
-                                    $activations = [];
-                                    $act_query = mysqli_query($connection_server, "SELECT feature_name, activation_status FROM sm_feature_activations WHERE school_id_number='$school_id_number'");
-                                    while($row = mysqli_fetch_assoc($act_query)) {
-                                        $activations[$row['feature_name']] = $row['activation_status'];
-                                    }
-                            ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($school['school_name']); ?></td>
-                                <?php foreach ($features as $feature):
-                                    $status = isset($activations[$feature]) ? $activations[$feature] : 'inactive';
-                                    $is_active = ($status === 'active');
+                                        // Get all activations for this school at once
+                                        $activations = [];
+                                        $act_query = mysqli_query($connection_server, "SELECT feature_name, activation_status FROM sm_feature_activations WHERE school_id_number='$school_id_number'");
+                                        while($row = mysqli_fetch_assoc($act_query)) {
+                                            $activations[$row['feature_name']] = $row['activation_status'];
+                                        }
                                 ?>
-                                <td>
-                                    <span class="status-<?php echo $is_active ? 'active' : 'inactive'; ?>"><?php echo ucfirst($status); ?></span>
-                                    <form method="post" style="display: inline-block; margin-left: 10px;">
-                                        <input type="hidden" name="school_id_number" value="<?php echo $school_id_number; ?>">
-                                        <input type="hidden" name="feature_name" value="<?php echo $feature; ?>">
-                                        <?php if ($is_active): ?>
-                                            <input type="hidden" name="action" value="disable">
-                                            <button type="submit" name="toggle_feature_btn" class="bc-btn-del">Disable</button>
-                                        <?php else: ?>
-                                            <input type="hidden" name="action" value="enable">
-                                            <button type="submit" name="toggle_feature_btn" class="bc-btn-add">Enable</button>
-                                        <?php endif; ?>
-                                    </form>
-                                </td>
-                                <?php endforeach; ?>
-                            </tr>
-                            <?php
+                                <tr>
+                                    <td><?php echo htmlspecialchars($school['school_name']); ?></td>
+                                    <?php foreach ($features as $feature):
+                                        $status = isset($activations[$feature]) ? $activations[$feature] : 'inactive';
+                                        $is_active = ($status === 'active');
+                                    ?>
+                                    <td>
+                                        <span class="status-<?php echo $is_active ? 'active' : 'inactive'; ?>"><?php echo ucfirst($status); ?></span>
+                                        <form method="post" style="display: inline-block; margin-left: 10px;">
+                                            <input type="hidden" name="school_id_number" value="<?php echo $school_id_number; ?>">
+                                            <input type="hidden" name="feature_name" value="<?php echo $feature; ?>">
+                                            <?php if ($is_active): ?>
+                                                <input type="hidden" name="action" value="disable">
+                                                <button type="submit" name="toggle_feature_btn" class="bc-btn-del">Disable</button>
+                                            <?php else: ?>
+                                                <input type="hidden" name="action" value="enable">
+                                                <button type="submit" name="toggle_feature_btn" class="bc-btn-add">Enable</button>
+                                            <?php endif; ?>
+                                        </form>
+                                    </td>
+                                    <?php endforeach; ?>
+                                </tr>
+                                <?php
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='4'>No schools found.</td></tr>";
                                 }
-                            } else {
-                                echo "<tr><td colspan='4'>No schools found.</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <?php else: ?>
                 <div id="pending-requests">
-                    <table class="bc-table">
-                        <thead>
-                            <tr>
-                                <th>School Name</th>
-                                <th>Feature</th>
-                                <th>Date Requested</th>
-                                <th>Proof of Payment</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $pending_query = mysqli_query($connection_server, "
-                                SELECT fa.*, sd.school_name
-                                FROM sm_feature_activations fa
-                                JOIN sm_school_details sd ON fa.school_id_number = sd.school_id_number
-                                WHERE fa.payment_method = 'bank_transfer' AND fa.activation_status = 'pending'
-                                ORDER BY fa.request_date DESC
-                            ");
-                            if (mysqli_num_rows($pending_query) > 0) {
-                                while ($request = mysqli_fetch_assoc($pending_query)) {
-                            ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($request['school_name']); ?></td>
-                                <td><?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $request['feature_name']))); ?></td>
-                                <td><?php echo date("Y-m-d H:i", strtotime($request['request_date'])); ?></td>
-                                <td>
-                                    <?php if (!empty($request['payment_proof_path'])): ?>
-                                        <a href="/<?php echo htmlspecialchars($request['payment_proof_path']); ?>" target="_blank">View Proof</a>
-                                    <?php else: ?>
-                                        No proof uploaded
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <form method="post">
-                                        <input type="hidden" name="activation_id" value="<?php echo $request['id']; ?>">
-                                        <button type="submit" name="approve-activation-btn" class="bc-btn-add">Approve</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php
+                    <div class="scroll-box bg-2 mobile-width-100 system-width-100">
+                        <table class="bc-table">
+                            <thead>
+                                <tr>
+                                    <th>School Name</th>
+                                    <th>Feature</th>
+                                    <th>Date Requested</th>
+                                    <th>Proof of Payment</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $pending_query = mysqli_query($connection_server, "
+                                    SELECT fa.*, sd.school_name
+                                    FROM sm_feature_activations fa
+                                    JOIN sm_school_details sd ON fa.school_id_number = sd.school_id_number
+                            WHERE fa.activation_status = 'pending'
+                                    ORDER BY fa.request_date DESC
+                                ");
+                                if (mysqli_num_rows($pending_query) > 0) {
+                                    while ($request = mysqli_fetch_assoc($pending_query)) {
+                                ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($request['school_name']); ?></td>
+                                    <td><?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $request['feature_name']))); ?></td>
+                                    <td><?php echo date("Y-m-d H:i", strtotime($request['request_date'])); ?></td>
+                                    <td>
+                                        <?php if (!empty($request['payment_proof_path'])): ?>
+                                            <a href="/<?php echo htmlspecialchars($request['payment_proof_path']); ?>" target="_blank">View Proof</a>
+                                        <?php else: ?>
+                                            No proof uploaded
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <form method="post">
+                                            <input type="hidden" name="activation_id" value="<?php echo $request['id']; ?>">
+                                            <button type="submit" name="approve-activation-btn" class="bc-btn-add">Approve</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='5'>No pending activation requests.</td></tr>";
                                 }
-                            } else {
-                                echo "<tr><td colspan='5'>No pending activation requests.</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <?php endif; ?>
             </div>

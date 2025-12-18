@@ -16,10 +16,10 @@ $feature_price_data = mysqli_fetch_assoc($price_query);
 $feature_price = $feature_price_data ? $feature_price_data['price'] : null;
 
 // Fetch payment settings from sm_sms_settings
-$settings_query = mysqli_query($connection_server, "SELECT `key`, `value` FROM sm_sms_settings WHERE `key` IN ('paystack_public_key', 'bank_name', 'bank_account_name', 'bank_account_number')");
+$settings_query = mysqli_query($connection_server, "SELECT `item`, `value` FROM sm_sms_settings WHERE `item` IN ('paystack_public_key', 'bank_name', 'bank_account_name', 'bank_account_number')");
 $settings = [];
 while ($row = mysqli_fetch_assoc($settings_query)) {
-    $settings[$row['key']] = $row['value'];
+    $settings[$row['item']] = $row['value'];
 }
 $paystack_pk = $settings['paystack_public_key'] ?? '';
 $bank_name = $settings['bank_name'] ?? 'Not Set';
