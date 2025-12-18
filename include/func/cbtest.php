@@ -1,12 +1,4 @@
 <?php
-$school_id = $get_logged_user_details['school_id_number'];
-$feature_name = 'cbt';
-
-// Check if the feature is activated for the school
-if (!is_feature_active($school_id, $feature_name, $connection_server)) {
-    header("Location: /bc-admin.php?page=smgt_request_activation&feature=" . $feature_name);
-    exit();
-}
 
 // Globally define helper functions for use in all views within this file.
 if (!function_exists('homeworkSchoolName')) {

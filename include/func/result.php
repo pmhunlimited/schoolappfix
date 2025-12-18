@@ -119,14 +119,6 @@
 		$term_id_number = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["term"])));
 		$class_category = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["class-category"])));
 		$school_id = $get_logged_user_details["school_id_number"];
-
-		// Check if 'teacher_remark' column exists and add it if it doesn't
-		$check_column_query = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_result_remarks` LIKE 'teacher_remark'");
-		$column_exists = mysqli_num_rows($check_column_query) > 0;
-
-		if (!$column_exists) {
-			mysqli_query($connection_server, "ALTER TABLE `sm_result_remarks` ADD `teacher_remark` TEXT NULL DEFAULT NULL AFTER `principal_remark`");
-		}
 		
 		$get_all_students_in_class = mysqli_query($connection_server, "SELECT * FROM sm_class_list WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && session='$session'");
 		
@@ -134,7 +126,7 @@
 			while($add_student_to_result_database = mysqli_fetch_array($get_all_students_in_class)){
 				$get_if_student_exists_in_result_database = mysqli_query($connection_server, "SELECT * FROM sm_result_remarks WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && session='$session' && term_id_number='$term_id_number' && admission_number='".$add_student_to_result_database["admission_number"]."'");
 				if(mysqli_num_rows($get_if_student_exists_in_result_database) == 0){
-					$insert_student_to_result_remark_database = mysqli_query($connection_server, "INSERT INTO sm_result_remarks (school_id_number, numeric_class_name, session, term_id_number, admission_number, principal_remark, teacher_remark) VALUES ('$school_id','$numeric_class','$session','$term_id_number','".$add_student_to_result_database["admission_number"]."','', NULL)");
+					$insert_student_to_result_remark_database = mysqli_query($connection_server, "INSERT INTO sm_result_remarks (school_id_number, numeric_class_name, session, term_id_number, admission_number, principal_remark) VALUES ('$school_id','$numeric_class','$session','$term_id_number','".$add_student_to_result_database["admission_number"]."','')");
 					if($insert_student_to_result_remark_database == false){
 						echo "<script> alert(".mysqli_error($connection_server)."); </script>";
 					}
@@ -223,7 +215,6 @@
 		$term_id_number = $all_view_detail_array[2];
 		
 		$principal_remark_array = $_POST["principal-remark"];
-		$teacher_remark_array = $_POST["teacher-remark"];
 		$admission_number_array = $_POST["admission-number"];
 		
 		$school_id = mysqli_real_escape_string($connection_server, trim(strip_tags($_GET["id"])));
@@ -231,11 +222,10 @@
 		if(!empty($numeric_class) && !empty($session) && !empty($term_id_number) && !empty($admission_number_array) && !empty($school_id)){
 			foreach($principal_remark_array as $index => $principal_remark){
 				$principal_remark = mysqli_real_escape_string($connection_server, trim(strip_tags($principal_remark_array[$index])));
-				$teacher_remark = mysqli_real_escape_string($connection_server, trim(strip_tags($teacher_remark_array[$index])));
 				$admission_number = mysqli_real_escape_string($connection_server, trim(strip_tags($admission_number_array[$index])));
 				
 				if(mysqli_num_rows(mysqli_query($connection_server, "SELECT * FROM sm_result_remarks WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && session='$session' && term_id_number='$term_id_number' && admission_number='$admission_number'")) == 1){
-					if(mysqli_query($connection_server, "UPDATE sm_result_remarks SET principal_remark='$principal_remark', teacher_remark='$teacher_remark' WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && session='$session' && term_id_number='$term_id_number' && admission_number='$admission_number'") == true){
+					if(mysqli_query($connection_server, "UPDATE sm_result_remarks SET principal_remark='$principal_remark' WHERE school_id_number='$school_id' && numeric_class_name='$numeric_class' && session='$session' && term_id_number='$term_id_number' && admission_number='$admission_number'") == true){
 						$redirect_url = "/bc-admin.php?page=".trim(strip_tags($_GET["page"]))."&tab=".trim(strip_tags($_GET["tab"]))."&id=".trim(strip_tags($_GET["id"]))."&view=".$session."_".$numeric_class."_".$term_id_number;
 					}
 				}else{

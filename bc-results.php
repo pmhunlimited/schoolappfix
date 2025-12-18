@@ -330,7 +330,7 @@ $today_date = new DateTime();
 						<strong>No. of Subject</strong>: <?php echo $subject_count; ?>
 					</span>
 					<?php
-						$average_mark_obtained = substr((($mark_obtained_count / $mark_obtainable_count) * 100),0,5);
+						$average_mark_obtained = ($mark_obtainable_count > 0) ? substr((($mark_obtained_count / $mark_obtainable_count) * 100),0,5) : 0;
 					?>
 					<!-- Average Mark -->
 					<span style="display: inline-block;" class="color-1 mobile-font-size-12 system-font-size-14 mobile-margin-right-0 system-margin-right-5">
@@ -364,7 +364,7 @@ $today_date = new DateTime();
 		</center>
 	</div><br>
 	<center>
-		<span style="display: inline-block; text-decoration: underline; cursor: pointer;" class="color-4 mobile-font-size-14 system-font-size-16 noprint" onclick="printPage();">Print Result</span>
+		<span style="display: inline-block; text-decoration: underline; cursor: pointer;" class="color-4 mobile-font-size-14 system-font-size-16" onclick="printPage();">Print Result</span>
 						
 		<script>
 			

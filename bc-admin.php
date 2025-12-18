@@ -53,8 +53,6 @@
 		$user_class_statement_auth = "";
 		$user_identifier_auth_id = "super_mod";
 		$show_hd_add_button = true;
-		$user_admission_id_statement_auth = "";
-		$user_bed_statement_auth = "";
 	}
 	
 	if(isset($_SESSION["mod_adm_session"])){
@@ -64,8 +62,6 @@
 		$user_identifier_auth_id = "mod_adm";
 		$show_hd_add_button = true;
 		$user_profile_photo_auth = array("school_".$get_logged_user_details["school_id_number"].".png","Student_Future.png");
-		$user_admission_id_statement_auth = "";
-		$user_bed_statement_auth = "";
 	
 	}
 	
@@ -75,8 +71,6 @@
 		$user_class_statement_auth = "";
 		$user_identifier_auth_id = "adm_staff";
 		$show_hd_add_button = true;
-		$user_admission_id_statement_auth = "";
-		$user_bed_statement_auth = "";
 		$user_profile_photo_auth = array("adminstaff_".$get_logged_user_details["school_id_number"]."_".$get_logged_user_details["id_number"].".png","admin-staff.png");
 		
 		$user_account_table_name_auth = "sm_admin_staffs";
@@ -89,8 +83,6 @@
 		$show_item_auth = false;
 		$user_identifier_auth_id = "teacher";
 		$show_hd_add_button = false;
-		$user_admission_id_statement_auth = "";
-		$user_bed_statement_auth = "";
 		$get_teacher_stukids_class_id = mysqli_query($connection_server, "SELECT * FROM sm_teachers WHERE school_id_number='".$get_logged_user_details['school_id_number']."' && id_number='".$get_logged_user_details["id_number"]."'");
 		if(mysqli_num_rows($get_teacher_stukids_class_id) > 0){
 			while($kids_classes = mysqli_fetch_assoc($get_teacher_stukids_class_id)){
@@ -128,14 +120,10 @@
 		$user_admission_id_statement_auth = "&& (".str_replace(" "," OR ",trim($user_admission_id_statement_auth_raw_2)) .")";
 		
 		$user_bed_id_statement_auth_exp = array_filter(explode(" ",trim($user_bed_id_statement_auth_raw)));
-		if (!empty($user_bed_id_statement_auth_exp)) {
-			foreach($user_bed_id_statement_auth_exp as $bed_id){
-				$user_bed_id_statement_auth_raw_2 .= "id_number='".$bed_id."' ";
-			}
-			$user_bed_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bed_id_statement_auth_raw_2)) .")";
-		} else {
-			$user_bed_statement_auth = "&& 1=0";
+		foreach($user_bed_id_statement_auth_exp as $bed_id){
+			$user_bed_id_statement_auth_raw_2 .= "id_number='".$bed_id."' ";
 		}
+		$user_bed_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bed_id_statement_auth_raw_2)) .")";
 		
 		$user_bus_id_statement_auth_exp = array_filter(explode(" ",trim($user_bus_id_statement_auth_raw)));
 		foreach($user_bus_id_statement_auth_exp as $bus_id){
@@ -170,8 +158,6 @@
 		$user_class_statement_auth = "";
 		$user_identifier_auth_id = "stu_par";
 		$show_hd_add_button = false;
-		$user_admission_id_statement_auth = "";
-		$user_bed_statement_auth = "";
 
 		//$user_class_id_name_auth = array();
 		$get_parent_kids_class_id = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='".$get_logged_user_details['school_id_number']."' && parent_id_number='".$get_logged_user_details["id_number"]."'");
@@ -198,14 +184,10 @@
 		$user_admission_id_statement_auth = "&& (".str_replace(" "," OR ",trim($user_admission_id_statement_auth_raw_2)) .")";
 		
 		$user_bed_id_statement_auth_exp = array_filter(explode(" ",trim($user_bed_id_statement_auth_raw)));
-		if (!empty($user_bed_id_statement_auth_exp)) {
-			foreach($user_bed_id_statement_auth_exp as $bed_id){
-				$user_bed_id_statement_auth_raw_2 .= "id_number='".$bed_id."' ";
-			}
-			$user_bed_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bed_id_statement_auth_raw_2)) .")";
-		} else {
-			$user_bed_statement_auth = "&& 1=0";
+		foreach($user_bed_id_statement_auth_exp as $bed_id){
+			$user_bed_id_statement_auth_raw_2 .= "id_number='".$bed_id."' ";
 		}
+		$user_bed_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bed_id_statement_auth_raw_2)) .")";
 		
 		$user_bus_id_statement_auth_exp = array_filter(explode(" ",trim($user_bus_id_statement_auth_raw)));
 		foreach($user_bus_id_statement_auth_exp as $bus_id){
@@ -275,10 +257,6 @@
 
 	if(strip_tags($_GET["page"]) == "smgt_time_table"){
 		include("include/func/route.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_term"){
-		include("include/func/term.php");
 	}
 
 	if(strip_tags($_GET["page"]) == "smgt_student"){
@@ -405,22 +383,6 @@
 		include("include/func/sms-sender-id.php");
 	}
 
-	if(strip_tags($_GET["page"]) == "smgt_cleanup"){
-		include("include/func/cleanup.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_feature_pricing"){
-		include("include/func/feature-pricing.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_feature_activations"){
-		include("include/func/feature-activations.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_request_activation"){
-		include("include/func/request-activation.php");
-	}
-
 	if(strip_tags($_GET["page"]) == "smgt_sms_send"){
 		include("include/func/sms-send.php");
 	}
@@ -539,10 +501,6 @@
 
 		if(strip_tags($_GET["page"]) == "smgt_time_table"){
 			include("include/route.php");
-		}
-
-		if(strip_tags($_GET["page"]) == "smgt_term"){
-			include("include/term.php");
 		}
 
 		if(strip_tags($_GET["page"]) == "smgt_student"){
@@ -697,25 +655,6 @@
 			include("include/sms-sender-id.php");
 		}
 		
-		if(strip_tags($_GET["page"]) == "smgt_cleanup"){
-			include("include/cleanup.php");
-		}
-
-		if(strip_tags($_GET["page"]) == "smgt_bulk_print"){
-			include("include/bulk-print.php");
-		}
-
-		if(strip_tags($_GET["page"]) == "smgt_feature_pricing"){
-			include("include/feature-pricing.php");
-		}
-
-		if(strip_tags($_GET["page"]) == "smgt_feature_activations"){
-			include("include/feature-activations.php");
-		}
-
-		if(strip_tags($_GET["page"]) == "smgt_request_activation"){
-			include("include/request-activation.php");
-		}
 		
 	?>
 

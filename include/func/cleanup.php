@@ -1,14 +1,6 @@
 <?php
-$school_id = $get_logged_user_details['school_id_number'];
-$feature_name = 'data_cleanup';
-
-// Check if the feature is activated for the school
-if (!is_feature_active($school_id, $feature_name, $connection_server)) {
-    header("Location: /bc-admin.php?page=smgt_request_activation&feature=" . $feature_name);
-    exit();
-}
-
 if (isset($_POST["clean-orphaned-subjects"])) {
+    $school_id = $get_logged_user_details["school_id_number"];
     $status = 'info';
     $status_msg = 'No orphaned subject records found.';
 
@@ -30,7 +22,7 @@ if (isset($_POST["clean-orphaned-subjects"])) {
     $orphaned_subjects = array_diff($results_subjects, $existing_subjects);
 
     if (!empty($orphaned_subjects)) {
-        $orphaned_subjects_str = "'" . implode("','", array_map('mysqli_real_escape_string', array_fill(0, count($orphaned_subjects), $connection_server), $orphaned_subjects)) . "'";
+        $orphaned_subjects_str = "'" . implode("','", $orphaned_subjects) . "'";
         $delete_query = "DELETE FROM sm_results WHERE school_id_number='$school_id' AND subject_code IN ($orphaned_subjects_str)";
 
         if (mysqli_query($connection_server, $delete_query)) {
@@ -49,11 +41,7 @@ if (isset($_POST["clean-orphaned-subjects"])) {
     header("Location: /bc-admin.php?page=smgt_cleanup&status=$status&status_msg=" . urlencode($status_msg));
     exit();
 }
-
-$status = $_GET['status'] ?? '';
-$status_msg = $_GET['status_msg'] ?? '';
 ?>
-
 <div class="bc_heading">
     <div class="bc_heading_text">Data Cleanup</div>
 </div>

@@ -94,6 +94,9 @@
 		$select_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_bed_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
 		$select_all_bed_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_beds WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_bed_statement_auth);
 	}
+	if(empty($user_bed_statement_auth)){
+		$user_bed_statement_auth = "&& 1=0";
+	}
 	
 	if(isset($_POST["add-bed"])){
 		$room = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["room"])));

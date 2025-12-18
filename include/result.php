@@ -110,9 +110,7 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 								class="form-select" required>
 								<option selected disabled hidden value="">Select Class</option>
 								<?php
-								$class_numeric_names = "";
-								$class_numeric_names_ids = "";
-								$class_numeric_names_sqli_statements = "";
+
 								$select_class_list_detail_using_id = mysqli_query($connection_server, "SELECT * FROM sm_class_list WHERE school_id_number='" . trim(strip_tags($_GET['id'])) . "' " . $user_admission_id_statement_auth . " GROUP BY numeric_class_name");
 
 								if (mysqli_num_rows($select_class_list_detail_using_id) > 0) {
@@ -773,9 +771,7 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 									class="form-select" required>
 									<option selected disabled hidden value="">Select Class</option>
 									<?php
-									$class_numeric_names = "";
-									$class_numeric_names_ids = "";
-									$class_numeric_names_sqli_statements = "";
+
 									$select_class_list_detail_using_id = mysqli_query($connection_server, "SELECT * FROM sm_class_list WHERE school_id_number='" . trim(strip_tags($_GET['id'])) . "' " . $user_admission_id_statement_auth . " GROUP BY numeric_class_name");
 
 									if (mysqli_num_rows($select_class_list_detail_using_id) > 0) {
@@ -922,8 +918,7 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 											<th>Roll No</th>
 											<th>Name</th>
 											<th>Average Marks(%)</th>
-											<th>Principal Remark</th>
-											<th>Teacher's Remark</th>
+											<th>Remark</th>
 										</tr>
 										<?php
 										function averageMarkPercent($school_id, $class_info, $session_info, $term_info, $student_id)
@@ -970,26 +965,16 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 													}
 													if ($checkmate_class_category) {
 
-														$average_percentage = averageMarkPercent($result_manage_marks_details["school_id_number"], $result_manage_marks_details["numeric_class_name"], $result_manage_marks_details["session"], $result_manage_marks_details["term_id_number"], $result_manage_marks_details["admission_number"]);
-														$preset_remark = getScoreGrade($average_percentage, 'remark', $result_manage_marks_details["school_id_number"]);
-														$current_remark = $result_manage_marks_details["principal_remark"];
-														$remark_to_display = !empty($current_remark) ? $current_remark : $preset_remark;
-
 														echo '<tr>
 													<td>
 														' . $result_manage_marks_details["admission_number"] . '
 														<input hidden name="admission-number[]" value="' . $result_manage_marks_details["admission_number"] . '" type="text" pattern="[0-9]{1,}" title="Mark must contain numbers only" placeholder="" class="form-input" readonly required/>
 													</td>
 													<td>' . studentName($result_manage_marks_details["admission_number"], $result_manage_marks_details["school_id_number"]) . '</td>
-													<td>' . $average_percentage . '%</td>
+													<td>' . averageMarkPercent($result_manage_marks_details["school_id_number"], $result_manage_marks_details["numeric_class_name"], $result_manage_marks_details["session"], $result_manage_marks_details["term_id_number"], $result_manage_marks_details["admission_number"]) . '%</td>
 													<td>
 														<div class="form-group mobile-width-90 system-width-40">
-															<input name="principal-remark[]" value="' . $remark_to_display . '" placeholder="Principal Remark" class="form-input" />
-														</div>
-													</td>
-													<td>
-														<div class="form-group mobile-width-90 system-width-40">
-															<input name="teacher-remark[]" value="' . $result_manage_marks_details["teacher_remark"] . '" placeholder="Teacher\'s Remark" class="form-input" />
+															<input name="principal-remark[]" value="' . $result_manage_marks_details["principal_remark"] . '" placeholder="Principal Remark" class="form-input" />
 														</div>
 													</td>
 												</tr>';
@@ -1105,9 +1090,7 @@ if (($user_identifier_auth_id != "super_mod") && ($user_identifier_auth_id == "m
 								class="form-select" required>
 								<option selected disabled hidden value="">Select Class</option>
 								<?php
-								$class_numeric_names = "";
-								$class_numeric_names_ids = "";
-								$class_numeric_names_sqli_statements = "";
+
 								$select_class_list_detail_using_id = mysqli_query($connection_server, "SELECT * FROM sm_class_list WHERE school_id_number='" . trim(strip_tags($_GET['id'])) . "' " . $user_admission_id_statement_auth . " GROUP BY numeric_class_name");
 
 								if (mysqli_num_rows($select_class_list_detail_using_id) > 0) {
