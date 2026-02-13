@@ -93,56 +93,81 @@
 		foreach($user_teacher_class_id_explode as $class_id){
 			$user_teacher_class_statement_auth_find .= "current_class='".$class_id."' ";
 		}
-		$user_teacher_class_names_auth_find = "&& (".str_replace(" "," OR ",trim($user_teacher_class_statement_auth_find)) .")";
-		
-		$get_teacher_kids_class_id = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='".$get_logged_user_details['school_id_number']."' ".$user_teacher_class_names_auth_find);
-		if(mysqli_num_rows($get_teacher_kids_class_id) > 0){
-			while($kids_classes = mysqli_fetch_assoc($get_teacher_kids_class_id)){
-				$teacher_class_id_raw .= $kids_classes["current_class"]." ";
-				$user_admission_id_statement_auth_raw .= $kids_classes["admission_number"]." ";
-				$user_bed_id_statement_auth_raw .= $kids_classes["bed_id_number"]." ";
-				$user_bus_id_statement_auth_raw .= $kids_classes["bus_id_number"]." ";
-				$user_session_statement_auth_raw .= $kids_classes["session"]." ";
+		$user_teacher_class_names_auth_find = "&& (" . str_replace(" ", " OR ", trim($user_teacher_class_statement_auth_find)) . ")";
+		if (!empty($user_teacher_class_id_explode)) {
+			$get_teacher_kids_class_id = mysqli_query($connection_server, "SELECT * FROM sm_students WHERE school_id_number='" . $get_logged_user_details['school_id_number'] . "' " . $user_teacher_class_names_auth_find);
+			if (mysqli_num_rows($get_teacher_kids_class_id) > 0) {
+				while ($kids_classes = mysqli_fetch_assoc($get_teacher_kids_class_id)) {
+					$teacher_class_id_raw .= $kids_classes["current_class"] . " ";
+					$user_admission_id_statement_auth_raw .= $kids_classes["admission_number"] . " ";
+					$user_bed_id_statement_auth_raw .= $kids_classes["bed_id_number"] . " ";
+					$user_bus_id_statement_auth_raw .= $kids_classes["bus_id_number"] . " ";
+					$user_session_statement_auth_raw .= $kids_classes["session"] . " ";
+				}
 			}
 		}
 		
 		$user_class_id_name_auth = array_filter(explode(" ",trim($teacher_class_id_raw)));
-		foreach($user_class_id_name_auth as $class_id){
-			$user_class_statement_auth_raw .= "numeric_class_name='".$class_id."' ";
+		if (!empty($user_class_id_name_auth)) {
+			foreach ($user_class_id_name_auth as $class_id) {
+				$user_class_statement_auth_raw .= "numeric_class_name='" . $class_id . "' ";
+			}
+			$user_class_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_class_statement_auth_raw)) . ")";
+		} else {
+			$user_class_statement_auth = "&& 1=0"; // No classes assigned, so make the query return no results
 		}
-		$user_class_statement_auth = "&& (".str_replace(" "," OR ",trim($user_class_statement_auth_raw)) .")";
 		
-		$user_admission_id_statement_auth_exp = array_filter(explode(" ",trim($user_admission_id_statement_auth_raw)));
-		foreach($user_admission_id_statement_auth_exp as $admission_id){
-			$user_admission_id_statement_auth_raw_2 .= "admission_number='".$admission_id."' ";
+		$user_admission_id_statement_auth_exp = array_filter(explode(" ", trim($user_admission_id_statement_auth_raw)));
+		if (!empty($user_admission_id_statement_auth_exp)) {
+			foreach ($user_admission_id_statement_auth_exp as $admission_id) {
+				$user_admission_id_statement_auth_raw_2 .= "admission_number='" . $admission_id . "' ";
+			}
+			$user_admission_id_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_admission_id_statement_auth_raw_2)) . ")";
+		} else {
+			$user_admission_id_statement_auth = "&& 1=0"; // No students assigned, so make the query return no results
 		}
-		$user_admission_id_statement_auth = "&& (".str_replace(" "," OR ",trim($user_admission_id_statement_auth_raw_2)) .")";
 		
-		$user_bed_id_statement_auth_exp = array_filter(explode(" ",trim($user_bed_id_statement_auth_raw)));
-		foreach($user_bed_id_statement_auth_exp as $bed_id){
-			$user_bed_id_statement_auth_raw_2 .= "id_number='".$bed_id."' ";
+		$user_bed_id_statement_auth_exp = array_filter(explode(" ", trim($user_bed_id_statement_auth_raw)));
+		if (!empty($user_bed_id_statement_auth_exp)) {
+			foreach ($user_bed_id_statement_auth_exp as $bed_id) {
+				$user_bed_id_statement_auth_raw_2 .= "id_number='" . $bed_id . "' ";
+			}
+			$user_bed_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_bed_id_statement_auth_raw_2)) . ")";
+		} else {
+			$user_bed_statement_auth = "&& 1=0"; // No beds assigned, so make the query return no results
 		}
-		$user_bed_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bed_id_statement_auth_raw_2)) .")";
 		
-		$user_bus_id_statement_auth_exp = array_filter(explode(" ",trim($user_bus_id_statement_auth_raw)));
-		foreach($user_bus_id_statement_auth_exp as $bus_id){
-			$user_bus_id_statement_auth_raw_2 .= "id_number='".$bus_id."' ";
+		$user_bus_id_statement_auth_exp = array_filter(explode(" ", trim($user_bus_id_statement_auth_raw)));
+		if (!empty($user_bus_id_statement_auth_exp)) {
+			foreach ($user_bus_id_statement_auth_exp as $bus_id) {
+				$user_bus_id_statement_auth_raw_2 .= "id_number='" . $bus_id . "' ";
+			}
+			$user_bus_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_bus_id_statement_auth_raw_2)) . ")";
+		} else {
+			$user_bus_statement_auth = "&& 1=0"; // No buses assigned, so make the query return no results
 		}
-		$user_bus_statement_auth = "&& (".str_replace(" "," OR ",trim($user_bus_id_statement_auth_raw_2)) .")";
 		
-		foreach($user_class_id_name_auth as $class_id){
-			$user_notice_statement_auth_raw .= "numeric_class_name='".$class_id."' ";
+		if (!empty($user_class_id_name_auth)) {
+			foreach ($user_class_id_name_auth as $class_id) {
+				$user_notice_statement_auth_raw .= "numeric_class_name='" . $class_id . "' ";
+			}
+			$user_notice_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_notice_statement_auth_raw)) . " OR numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
+		} else {
+			$user_notice_statement_auth = "&& (numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
 		}
-		$user_notice_statement_auth = "&& (".str_replace(" "," OR ",trim($user_notice_statement_auth_raw))." OR numeric_class_name='all') && (notice_for='teacher' OR notice_for='all')";
 		
 		
-		$user_session_statement_auth_exp = array_filter(explode(" ",trim($user_session_statement_auth_raw)));
-		foreach($user_class_id_name_auth as $index => $class_id){
-			$user_notification_statement_class_auth_raw .= "numeric_class_name='".$class_id."' ";
-			$user_notification_statement_user_admission_id_auth_raw .= "user='".$user_admission_id_statement_auth_exp[$index]."' ";
-			$user_notification_statement_session_auth_raw .= "session='".$user_session_statement_auth_exp[$index]."' ";
+		$user_session_statement_auth_exp = array_filter(explode(" ", trim($user_session_statement_auth_raw)));
+		if (!empty($user_class_id_name_auth)) {
+			foreach ($user_class_id_name_auth as $index => $class_id) {
+				$user_notification_statement_class_auth_raw .= "numeric_class_name='" . $class_id . "' ";
+				$user_notification_statement_user_admission_id_auth_raw .= "user='" . $user_admission_id_statement_auth_exp[$index] . "' ";
+				$user_notification_statement_session_auth_raw .= "session='" . $user_session_statement_auth_exp[$index] . "' ";
+			}
+			$user_notification_statement_auth = "&& (" . str_replace(" ", " OR ", trim($user_notification_statement_class_auth_raw)) . " OR numeric_class_name='all') && (" . str_replace(" ", " OR ", trim($user_notification_statement_session_auth_raw)) . " OR session='all') && (" . str_replace(" ", " OR ", trim($user_notification_statement_user_admission_id_auth_raw)) . " OR user='all')";
+		} else {
+			$user_notification_statement_auth = "&& 1=0"; // No notifications for this user, so make the query return no results
 		}
-		$user_notification_statement_auth = "&& (".str_replace(" "," OR ",trim($user_notification_statement_class_auth_raw))." OR numeric_class_name='all') && (".str_replace(" "," OR ",trim($user_notification_statement_session_auth_raw))." OR session='all') && (".str_replace(" "," OR ",trim($user_notification_statement_user_admission_id_auth_raw))." OR user='all')";
 		
 		$user_profile_photo_auth = array("teacher_".$get_logged_user_details["school_id_number"]."_".$get_logged_user_details["id_number"].".png","Teacher.png");
 		

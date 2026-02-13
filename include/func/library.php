@@ -76,16 +76,16 @@
 	$issue_list_search_sqli_statements .= "(".str_replace("\n"," && school_id_number=".$get_logged_user_details['school_id_number'].") OR (", trim($issue_list_search_sqli_statement))." && school_id_number=".$get_logged_user_details['school_id_number'].")";
 	
 	if((isset($_GET["search"])) && (trim(strip_tags($_GET["search"])) !== "")){
-		$select_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE $book_list_search_sqli_statements ".$user_admission_id_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
-		$select_all_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE $book_list_search_sqli_statements ".$user_admission_id_statement_auth);
-		$select_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE $issue_list_search_sqli_statements ".$user_class_statement_auth." ".$user_admission_id_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
-		$select_all_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE $issue_list_search_sqli_statements ".$user_class_statement_auth." ".$user_admission_id_statement_auth);
+		$select_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE $book_list_search_sqli_statements LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
+		$select_all_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE $book_list_search_sqli_statements");
+		$select_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE $issue_list_search_sqli_statements ".$user_class_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
+		$select_all_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE $issue_list_search_sqli_statements ".$user_class_statement_auth);
 		
 	}else{
-		$select_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_admission_id_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
-		$select_all_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_admission_id_statement_auth);
-		$select_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_class_statement_auth." ".$user_admission_id_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
-		$select_all_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_class_statement_auth." ".$user_admission_id_statement_auth);
+		$select_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."' LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
+		$select_all_book_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_book_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."'");
+		$select_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_class_statement_auth." LIMIT $page_pnum OFFSET ".((($current_page_no)-1)*$page_pnum));
+		$select_all_issue_list_table_lists = mysqli_query($connection_server, "SELECT * FROM sm_issue_lists WHERE school_id_number='".trim(strip_tags($_GET['id']))."' ".$user_class_statement_auth);
 		
 	}
 	
